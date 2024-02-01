@@ -7,3 +7,12 @@
 # - atomic microservices
 # - complex microservices
 
+version: "3"
+services:
+  mysql:
+    container_name: esd_database
+    build: ./backend/database
+    ports:
+      - 3308:3306
+    env_file:
+      - .env
