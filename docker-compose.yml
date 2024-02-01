@@ -16,3 +16,14 @@ services:
       - 3308:3306
     env_file:
       - .env
+  minio:
+    image: quay.io/minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=ROOTNAME
+      - MINIO_ROOT_PASSWORD=CHANGEME123
+    volumes:
+      - ./backend/bucket/minio/data:/data
+    command: server /data --console-address ":9001"
