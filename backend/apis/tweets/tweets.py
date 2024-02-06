@@ -96,6 +96,7 @@ def findTweet(tweet_id):
     ).first()
 
     if tweet:
+        app.logger.info("Tweet found!", tweet.json())
         return jsonify(
             {
                 "code": 200,
@@ -127,11 +128,9 @@ def createTweet(user_id):
         ).first()
 
     try:
-        app.logger.info(tweet.json())
         db.session.add(tweet)
-        app.logger.info("added")
         db.session.commit()
-        app.logger.info("After commit")
+        app.logger.info("Tweet added into database:", tweet.json())
     except Exception as e:
         return jsonify({
             "code": 500,
@@ -148,4 +147,5 @@ def createTweet(user_id):
 
 if __name__ == "__main__":
     print("This is running!")
+    app.logger.info("Tweets API is running at port 5100")
     app.run(host='0.0.0.0', port=5100, debug=True)
