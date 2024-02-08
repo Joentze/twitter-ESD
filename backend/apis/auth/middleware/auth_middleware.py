@@ -21,18 +21,18 @@ def validate_token(token):
     }
     # Validate the token signature using public keys
     try:
-        decoded_token = jwt.get_unverified_header(
+        decoded_token_header = jwt.get_unverified_header(
             token
         )
         # Get the RSA public key used to sign the token
-        rsa_public_key = rsa_public_keys[decoded_token['kid']]
+        rsa_public_key = rsa_public_keys[decoded_token_header['kid']]
 
         rsa_public_key_string = rsa_public_key.public_bytes(
             encoding=serialization.Encoding.PEM,
             format=serialization.PublicFormat.SubjectPublicKeyInfo
         ).decode('utf-8')
         # Verify the token signature using the public key
-        jwt.decode(
+        data = jwt.decode(
             token,
             key=rsa_public_key_string,
             algorithms=['RS256'],
@@ -43,7 +43,7 @@ def validate_token(token):
         )
 
         # Token is valid
-        return decoded_token
+        return {**decoded_token_header, "uid": data["sub"]}
 
     except jwt.ExpiredSignatureError:
         print("expired")
