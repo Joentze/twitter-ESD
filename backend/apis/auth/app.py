@@ -45,13 +45,14 @@ def home():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
-    return redirect("https://google.com")
+    return redirect("/")
 
 
 @app.route("/login")
 def login():
     return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
+        redirect_uri=url_for("callback", _external=True),
+        audience="https://dev-eym6ylpoplxr2f0n.jp.auth0.com/api/v2/"
     )
 
 
