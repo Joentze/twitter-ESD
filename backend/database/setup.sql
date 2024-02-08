@@ -17,6 +17,13 @@ CREATE TABLE USERS (
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
+CREATE TABLE Follows (
+    follower_id VARCHAR(100),
+    followed_id VARCHAR(100),
+    PRIMARY KEY (follower_id, followed_id),
+    FOREIGN KEY (follower_id) REFERENCES Users(uid),
+    FOREIGN KEY (followed_id) REFERENCES Users(uid)
+);
 
 -- -- Create tweets table
 -- CREATE TABLE tweets (
@@ -26,7 +33,6 @@ CREATE TABLE USERS (
 --     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 --     FOREIGN KEY (user_id) REFERENCES users(user_id)
 -- );
-
 -- -- Seed the database with fake data
 -- -- Insert users
 -- INSERT INTO
@@ -47,7 +53,6 @@ CREATE TABLE USERS (
 --         'user3@example.com',
 --         'hashed_password_3'
 --     );
-
 -- -- Insert tweets
 -- INSERT INTO
 --     tweets (user_id, content)
@@ -55,7 +60,6 @@ CREATE TABLE USERS (
 --     (1, 'This is a tweet from user1.'),
 --     (2, 'Tweeting like user2.'),
 --     (3, 'User3 joining the conversation.');
-
 -- -- Add more data as needed
 -- -- Display success message
 -- SELECT
