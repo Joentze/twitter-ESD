@@ -12,6 +12,7 @@ USE twitter_app;
 CREATE TABLE USERS (
     uid VARCHAR(100) PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
+    profile_image VARCHAR(300) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     is_private BIT DEFAULT 0 NOT NULL,
     created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -73,35 +74,46 @@ CREATE TABLE POST_IMAGE(
 
 -- Seed USERS table with fake data
 INSERT INTO
-    USERS (uid, username, email, is_private, created_on)
+    USERS (
+        uid,
+        username,
+        profile_image,
+        email,
+        is_private,
+        created_on
+    )
 VALUES
     (
         'user1_uid',
         'user1',
+        'https://example.com/profile_images/user1.jpg',
         'user1@example.com',
         0,
-        '2024-02-08 12:00:00'
+        '2023-01-01 12:00:00'
     ),
     (
         'user2_uid',
         'user2',
+        'https://example.com/profile_images/user2.jpg',
         'user2@example.com',
         0,
-        '2024-02-08 12:00:00'
+        '2023-01-02 12:00:00'
     ),
     (
         'user3_uid',
         'user3',
+        'https://example.com/profile_images/user3.jpg',
         'user3@example.com',
         1,
-        '2024-02-08 12:00:00'
+        '2023-01-03 12:00:00'
     ),
     (
         'user4_uid',
         'user4',
+        'https://example.com/profile_images/user4.jpg',
         'user4@example.com',
         0,
-        '2024-02-08 12:00:00'
+        '2023-01-04 12:00:00'
     );
 
 -- Seed FOLLOWS table with fake data
