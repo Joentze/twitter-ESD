@@ -26,3 +26,10 @@ services:
     volumes:
       - ./backend/bucket/minio/data:/data
     command: server /data --console-address ":9001"
+  auth0:
+    container_name: auth0-login
+    build: ./backend/apis/auth
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
