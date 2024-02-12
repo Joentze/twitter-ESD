@@ -21,7 +21,7 @@ Used to get details of all follows.
                 "followed id": "user2_uid",  
                 "follower id": "user1_uid"  
             },  
-            ...  
+            ...
         ]  
     }  
 }  
@@ -55,7 +55,7 @@ Used to get details of users followed by a specific user.
         "user2_uid",  
         "user3_uid",  
         "user4_uid",  
-        ...  
+        ...
     ]  
 }  
 ```

@@ -23,7 +23,7 @@ Used to get details of all comments.
                 "date commented": "Thu, 08 Feb 2024 12:31:00 GMT",  
                 "post id": "post3_id"  
             },  
-            ...  
+            ...
         ]  
     }  
 }  
@@ -61,7 +61,7 @@ Used to get details of comments by post ID.
             "date commented": "Thu, 08 Feb 2024 12:33:00 GMT",  
             "post id": "post1_id"  
         }  
-        ...  
+        ...
     ]  
 }  
 ```

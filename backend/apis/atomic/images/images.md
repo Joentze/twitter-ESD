@@ -21,7 +21,7 @@ Used to get details of all images.
                 "object id": "image1_id",  
                 "uploader uid": "user1_uid"  
             },  
-            ...  
+            ...
         ]  
     }  
 }  
@@ -57,7 +57,7 @@ Used to find images uploaded by a specific user.
             "object id": "image1_id",  
             "uploader uid": "user1_uid"  
         },  
-        ...  
+        ...
     ]  
 }  
 ```

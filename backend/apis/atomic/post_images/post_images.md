@@ -21,7 +21,7 @@ Used to get details of all post images.
                 "post id": "post_id_1",  
                 "date used": "Thu, 08 Feb 2024 12:01:00 GMT"  
             },  
-            ...  
+            ...
         ]  
     }  
 }  
@@ -57,7 +57,7 @@ Used to get details of post images by post ID.
             "post id": "post1_id",  
             "date used": "Thu, 08 Feb 2024 12:01:00 GMT"  
         },  
-        ...  
+        ...
     ]  
 }  
 ```

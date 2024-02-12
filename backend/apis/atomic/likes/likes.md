@@ -21,7 +21,7 @@ Used to get details of all likes.
                 "post id": "post2_id",  
                 "user id": "user1_uid"  
             },  
-            ...  
+            ...
         ]  
     }  
 }  
@@ -53,7 +53,7 @@ Used to get details of likes by post ID.
     "code": 200,    
     "data": [    
         "user2_uid",  
-        ...    
+        ...
     ]    
 }    
 ```
