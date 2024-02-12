@@ -22,8 +22,8 @@ CREATE TABLE FOLLOWS (
     followed_id VARCHAR(100) NOT NULL,
     date_followed TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (follower_id, followed_id),
-    FOREIGN KEY (follower_id) REFERENCES USERS(uid),
-    FOREIGN KEY (followed_id) REFERENCES USERS(uid)
+    FOREIGN KEY (follower_id) REFERENCES USERS(uid) ON DELETE cascade,
+    FOREIGN KEY (followed_id) REFERENCES USERS(uid) ON DELETE cascade
 );
 
 CREATE TABLE POSTS(
@@ -32,7 +32,7 @@ CREATE TABLE POSTS(
     post_content VARCHAR(300),
     post_location VARCHAR(300),
     date_posted TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    FOREIGN KEY (poster_uid) REFERENCES USERS(uid)
+    FOREIGN KEY (poster_uid) REFERENCES USERS(uid) ON DELETE cascade
 );
 
 CREATE TABLE LIKES(
@@ -40,8 +40,8 @@ CREATE TABLE LIKES(
     post_id CHAR(36) NOT NULL,
     date_liked TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (uid, post_id),
-    FOREIGN KEY (uid) REFERENCES USERS(uid),
-    FOREIGN KEY (post_id) REFERENCES POSTS(post_id)
+    FOREIGN KEY (uid) REFERENCES USERS(uid) ON DELETE cascade,
+    FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE cascade
 );
 
 CREATE TABLE COMMENTS(
@@ -51,15 +51,15 @@ CREATE TABLE COMMENTS(
     content VARCHAR(300) NOT NULL,
     date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (comment_id, commenter_uid, post_id),
-    FOREIGN KEY (commenter_uid) REFERENCES USERS(uid),
-    FOREIGN KEY (post_id) REFERENCES POSTS(post_id)
+    FOREIGN KEY (commenter_uid) REFERENCES USERS(uid) ON DELETE cascade,
+    FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE cascade
 );
 
 CREATE TABLE IMAGES(
     object_id VARCHAR(100) NOT NULL PRIMARY KEY,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    uploader_id VARCHAR(100) NOT NULL,
-    FOREIGN KEY (uploader_id) REFERENCES USERS(uid)
+    uploader_uid VARCHAR(100) NOT NULL,
+    FOREIGN KEY (uploader_uid) REFERENCES USERS(uid) ON DELETE cascade
 );
 
 CREATE TABLE POST_IMAGE(
@@ -67,8 +67,8 @@ CREATE TABLE POST_IMAGE(
     post_id CHAR(36) NOT NULL,
     date_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY(object_id, post_id),
-    FOREIGN KEY (object_id) REFERENCES IMAGES(object_id),
-    FOREIGN KEY (post_id) REFERENCES POSTS(post_id)
+    FOREIGN KEY (object_id) REFERENCES IMAGES(object_id) ON DELETE cascade,
+    FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE cascade
 );
 
 -- Seed USERS table with fake data
@@ -190,7 +190,7 @@ VALUES
 
 -- Seed IMAGES table with fake data
 INSERT INTO
-    IMAGES (object_id, date_created, uploader_id)
+    IMAGES (object_id, date_created, uploader_uid)
 VALUES
     ('image1_id', '2024-02-08 12:40:00', 'user1_uid'),
     ('image2_id', '2024-02-08 12:41:00', 'user2_uid'),

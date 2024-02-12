@@ -19,13 +19,85 @@ services:
     networks:
       - mynet
 
-  atomic_service:
-    container_name: sm_atomic_service
-    build: ./backend/apis/tweets
+  users_service:
+    container_name: users_service
+    build: ./backend/apis/atomic/users
     ports:
       - 5100:5100
     env_file:
-      - ./backend/apis/tweets/.env
+      - ./backend/apis/atomic/users/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  posts_service:
+    container_name: posts_service
+    build: ./backend/apis/atomic/posts
+    ports:
+      - 5101:5101
+    env_file:
+      - ./backend/apis/atomic/posts/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  comments_service:
+    container_name: comments_service
+    build: ./backend/apis/atomic/comments
+    ports:
+      - 5102:5102
+    env_file:
+      - ./backend/apis/atomic/comments/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  likes_service:
+    container_name: likes_service
+    build: ./backend/apis/atomic/likes
+    ports:
+      - 5103:5103
+    env_file:
+      - ./backend/apis/atomic/likes/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  follows_service:
+    container_name: follows_service
+    build: ./backend/apis/atomic/follows
+    ports:
+      - 5104:5104
+    env_file:
+      - ./backend/apis/atomic/follows/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  images_service:
+    container_name: images_service
+    build: ./backend/apis/atomic/images
+    ports:
+      - 5110:5110
+    env_file:
+      - ./backend/apis/atomic/images/.env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  post_images_service:
+    container_name: post_images_service
+    build: ./backend/apis/atomic/post_images
+    ports:
+      - 5111:5111
+    env_file:
+      - ./backend/apis/atomic/post_images/.env
     networks:
       - mynet
     depends_on:
