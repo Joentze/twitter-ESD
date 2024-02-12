@@ -34,3 +34,13 @@ services:
 networks:
   mynet:
     driver: bridge
+  minio:
+    image: quay.io/minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - .env
+    volumes:
+      - ./backend/bucket/minio/data:/data
+    command: server /data --console-address ":9001"
