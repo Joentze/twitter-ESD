@@ -25,7 +25,7 @@ services:
     ports:
       - 5100:5100
     env_file:
-      - ./backend/apis/atomic/users/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -37,7 +37,7 @@ services:
     ports:
       - 5101:5101
     env_file:
-      - ./backend/apis/atomic/posts/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -49,7 +49,7 @@ services:
     ports:
       - 5102:5102
     env_file:
-      - ./backend/apis/atomic/comments/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -61,7 +61,7 @@ services:
     ports:
       - 5103:5103
     env_file:
-      - ./backend/apis/atomic/likes/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -73,7 +73,7 @@ services:
     ports:
       - 5104:5104
     env_file:
-      - ./backend/apis/atomic/follows/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -85,7 +85,7 @@ services:
     ports:
       - 5110:5110
     env_file:
-      - ./backend/apis/atomic/images/.env
+      - .env
     networks:
       - mynet
     depends_on:
@@ -97,7 +97,7 @@ services:
     ports:
       - 5111:5111
     env_file:
-      - ./backend/apis/atomic/post_images/.env
+      - .env
     networks:
       - mynet
     depends_on:
