@@ -49,7 +49,7 @@ class Follow(db.Model):
         }
 
 @app.route('/follows')
-def getAllFollows():
+def get_all_follows():
     follows = db.session.scalars(db.select(Follow)).all()
 
     if len(follows):
@@ -69,7 +69,7 @@ def getAllFollows():
     ), 404
 
 @app.route("/follow/<string:uid>")
-def getUserFollowing(uid):
+def get_user_following(uid):
     follow = db.session.scalars(
         db.select(Follow.followed_id).filter_by(follower_id=uid)
     )
@@ -90,7 +90,7 @@ def getUserFollowing(uid):
     ), 404
 
 @app.route("/follow/<string:uid>", methods=["POST"])
-def createFollow(uid):
+def create_follow(uid):
     data = request.get_json()
     follow = db.session.scalars(
         db.select(Follow).filter_by(follower_id=uid, followed_id=data['followed_id']).
@@ -126,7 +126,7 @@ def createFollow(uid):
     }), 201
 
 @app.route('/follow/<string:uid>', methods=['DELETE'])
-def deleteFollow(uid):
+def delete_follow(uid):
     data = request.get_json()
 
     follow = db.session.scalars(

@@ -56,7 +56,7 @@ class Post(db.Model):
         }
 
 @app.route('/posts')
-def getAllPosts():
+def get_all_posts():
     posts = db.session.scalars(db.select(Post)).all()
 
     if len(posts):
@@ -76,7 +76,7 @@ def getAllPosts():
     ), 404
 
 @app.route("/post/<string:post_id>")
-def getPost(post_id):
+def get_post(post_id):
     post = db.session.scalars(
         db.select(Post).filter_by(post_id=post_id).
         limit(1)
@@ -98,7 +98,7 @@ def getPost(post_id):
     ), 404
 
 @app.route("/post/<string:poster_uid>", methods=["POST"])
-def createPost(poster_uid):
+def create_post(poster_uid):
     data = request.get_json()
     post = Post(poster_uid=poster_uid, **data)
 
@@ -133,7 +133,7 @@ def createPost(poster_uid):
     }), 201
 
 @app.route("/post/<string:post_id>", methods=["PUT"])
-def updatePost(post_id):
+def update_post(post_id):
     post = db.session.scalars(
         db.select(Post).filter_by(post_id=post_id).
         limit(1)
@@ -173,7 +173,7 @@ def updatePost(post_id):
     }), 200
 
 @app.route('/post/<string:post_id>', methods=['DELETE'])
-def deletePost(post_id):
+def delete_post(post_id):
     post = db.session.scalars(
         db.select(Post).filter_by(post_id=post_id).
         limit(1)

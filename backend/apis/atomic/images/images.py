@@ -49,7 +49,7 @@ class Image(db.Model):
         }
 
 @app.route('/images')
-def getAllImages():
+def get_all_images():
     images = db.session.scalars(db.select(Image)).all()
 
     if len(images):
@@ -69,7 +69,7 @@ def getAllImages():
     ), 404
 
 @app.route("/imageUploadedBy/<string:uploader_uid>")
-def findImagesUploadedBy(uploader_uid):
+def find_images_uploaded_by(uploader_uid):
     images = db.session.scalars(
         db.select(Image).filter_by(uploader_uid=uploader_uid)
     ).all()
@@ -90,7 +90,7 @@ def findImagesUploadedBy(uploader_uid):
     ), 404
 
 @app.route("/image/<string:object_id>")
-def findImage(object_id):
+def find_image(object_id):
     image = db.session.scalars(
         db.select(Image).filter_by(object_id=object_id).
         limit(1)
@@ -112,7 +112,7 @@ def findImage(object_id):
     ), 404
 
 @app.route("/image/<string:object_id>", methods=["POST"])
-def createImage(object_id):
+def create_image(object_id):
     image_exists = db.session.scalars(
         db.select(Image).filter_by(object_id=object_id).
         limit(1)

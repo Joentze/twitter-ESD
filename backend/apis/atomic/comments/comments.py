@@ -56,7 +56,7 @@ class Comment(db.Model):
         }
 
 @app.route('/comments')
-def getAllComments():
+def get_all_comments():
     comments = db.session.scalars(db.select(Comment)).all()
 
     if len(comments):
@@ -76,7 +76,7 @@ def getAllComments():
     ), 404
 
 @app.route("/comment/<string:post_id>")
-def getPostComments(post_id):
+def get_post_comments(post_id):
     comments = db.session.scalars(
         db.select(Comment).filter_by(post_id=post_id)
     )
@@ -97,7 +97,7 @@ def getPostComments(post_id):
     ), 404
 
 @app.route("/comment/<string:post_id>", methods=["POST"])
-def createComment(post_id):
+def create_comment(post_id):
     data = request.get_json()
     comment = Comment(post_id=post_id, **data)
 
@@ -132,7 +132,7 @@ def createComment(post_id):
     }), 201
 
 @app.route("/comment/<string:post_id>", methods=["PUT"])
-def updateComment(post_id):
+def update_comment(post_id):
     data = request.get_json()
 
     comment = db.session.scalars(
@@ -175,7 +175,7 @@ def updateComment(post_id):
     }), 201
 
 @app.route('/comment/<string:post_id>', methods=['DELETE'])
-def deleteComment(post_id):
+def delete_comment(post_id):
     data = request.get_json()
 
     comment = db.session.scalars(

@@ -56,7 +56,7 @@ class User(db.Model):
         }
 
 @app.route('/users')
-def getAllUsers():
+def get_all_users():
     users = db.session.scalars(db.select(User)).all()
 
     if len(users):
@@ -76,7 +76,7 @@ def getAllUsers():
     ), 404
 
 @app.route("/user/<string:uid>")
-def getUser(uid):
+def get_user(uid):
     user = db.session.scalars(
         db.select(User).filter_by(uid=uid).
         limit(1)
@@ -98,7 +98,7 @@ def getUser(uid):
     ), 404
 
 @app.route("/user/<string:uid>", methods=["POST"])
-def createUser(uid):
+def create_user(uid):
     data = request.get_json()
     errors = []
     existing_username = User.query.filter_by(username=data['username']).first()
@@ -141,7 +141,7 @@ def createUser(uid):
     }), 201
 
 @app.route("/user/<string:uid>", methods=["PUT"])
-def updateUser(uid):
+def update_user(uid):
     user = db.session.scalars(
         db.select(User).filter_by(uid=uid).
         limit(1)
@@ -183,7 +183,7 @@ def updateUser(uid):
     }), 200
 
 @app.route('/user/<string:uid>', methods=['DELETE'])
-def deleteUser(uid):
+def delete_user(uid):
     user = db.session.scalars(
         db.select(User).filter_by(uid=uid).
         limit(1)

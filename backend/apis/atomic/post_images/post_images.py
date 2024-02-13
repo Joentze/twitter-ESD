@@ -49,7 +49,7 @@ class PostImage(db.Model):
         }
 
 @app.route('/postImages')
-def getAllPostPostImages():
+def get_all_post_post_images():
     postImage = db.session.scalars(db.select(PostImage)).all()
 
     if len(postImage):
@@ -69,7 +69,7 @@ def getAllPostPostImages():
     ), 404
 
 @app.route("/postImage/<string:post_id>")
-def findImagesByPost(post_id):
+def find_images_by_post(post_id):
     postImages = db.session.scalars(
         db.select(PostImage).filter_by(post_id=post_id)
     ).all()
@@ -90,7 +90,7 @@ def findImagesByPost(post_id):
     ), 404
 
 @app.route("/postImage/<string:object_id>", methods=["POST"])
-def createPostImage(object_id):
+def create_post_image(object_id):
     data = request.get_json()
 
     image_exists = db.session.scalars(

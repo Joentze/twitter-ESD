@@ -49,7 +49,7 @@ class Like(db.Model):
         }
 
 @app.route('/likes')
-def getAllLikes():
+def get_all_likes():
     likes = db.session.scalars(db.select(Like)).all()
 
     if len(likes):
@@ -69,7 +69,7 @@ def getAllLikes():
     ), 404
 
 @app.route("/like/<string:post_id>")
-def getPostLikes(post_id):
+def get_post_likes(post_id):
     like = db.session.scalars(
         db.select(Like.uid).filter_by(post_id=post_id)
     )
@@ -90,7 +90,7 @@ def getPostLikes(post_id):
     ), 404
 
 @app.route("/like/<string:post_id>", methods=["POST"])
-def createLike(post_id):
+def create_like(post_id):
     data = request.get_json()
     like = db.session.scalars(
         db.select(Like).filter_by(post_id=post_id, uid=data['uid']).
@@ -126,7 +126,7 @@ def createLike(post_id):
     }), 201
 
 @app.route('/like/<string:post_id>', methods=['DELETE'])
-def deleteLike(post_id):
+def delete_like(post_id):
     data = request.get_json()
 
     like = db.session.scalars(
