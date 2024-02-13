@@ -38,6 +38,37 @@ Used to get details of all likes.
 }  
 ```
   
+## Get All Likes From User  
+Used to get details of all likes made by requester User.  
+  
+**URL** : `/userLikes/uid`  
+**Method** : `GET`  
+**Auth required** : NO  
+  
+### Success Response  
+**Code** : `200 OK`  
+**Content Example**  
+```json  
+{  
+    "code": 200,  
+    "data": [    
+        "post1_id",  
+        ...
+    ]    
+}  
+```
+  
+### Error Response    
+**Condition** : If there are no likes in the database.    
+**Code** : `404 NOT FOUND`    
+**Content Example** :    
+```json    
+{    
+    "code": 404,    
+    "message": "No one is likeing each other!"    
+}  
+```
+  
 ## Get Likes By Post ID    
 Used to get details of likes by post ID.  
   

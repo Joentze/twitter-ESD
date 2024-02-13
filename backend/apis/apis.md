@@ -11,6 +11,7 @@ Delete user: `DELETE /user/uid/`
 
 **[Posts](atomic/posts/posts.md)**  
 Get all posts: `GET /posts/`  
+Get post by ID: `GET /userPosts/poster_id`  
 Get post by ID: `GET /post/post_id`  
 Create new post: `POST /post/poster_uid`  
 Update post: `PUT /post/post_id`  
@@ -24,6 +25,7 @@ Delete user following: `DELETE /follow/uid`
 
 **[Comments](atomic/comments/comments.md)**  
 Get all comments: `GET /comments/`  
+Get comments by user: `GET /userComments/commenter_uid`  
 Get comments by post: `GET /comment/post_id`  
 Create new comment: `POST /comment/post_id`  
 Update comment: `PUT /comment/post_id`  
@@ -31,6 +33,7 @@ Delete comment: `DELETE /comment/post_id`
 
 **[Likes](atomic/likes/likes.md)**  
 Get all likes: `GET /likes/`  
+Get likes by user: `GET /userLikes/uid`  
 Get likes by post: `GET /like/post_id`  
 Create new like: `POST /like/post_id`  
 Delete like: `DELETE /like/post_id`  

@@ -75,6 +75,27 @@ def get_all_comments():
         }
     ), 404
 
+@app.route("/userComments/<string:commenter_uid>")
+def get_user_comments(commenter_uid):
+    comments = db.session.scalars(
+        db.select(Comment).filter_by(commenter_uid=commenter_uid)
+    )
+
+    if comments:
+        app.logger.info("Users comments found!")
+        return jsonify(
+            {
+                "code": 200,
+                "data": [comment.json() for comment in comments]
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Post has no comments"
+        }
+    ), 404
+
 @app.route("/comment/<string:post_id>")
 def get_post_comments(post_id):
     comments = db.session.scalars(

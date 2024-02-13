@@ -76,7 +76,7 @@ def get_all_posts():
     ), 404
 
 @app.route("/post/<string:post_id>")
-def get_post(post_id):
+def get_post_by_id(post_id):
     post = db.session.scalars(
         db.select(Post).filter_by(post_id=post_id).
         limit(1)
@@ -88,6 +88,27 @@ def get_post(post_id):
             {
                 "code": 200,
                 "data": post.json()
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Post not found."
+        }
+    ), 404
+
+@app.route("/userPosts/<string:poster_uid>")
+def get_post_by_user(poster_uid):
+    posts = db.session.scalars(
+        db.select(Post).filter_by(poster_uid=poster_uid)
+    ).all()
+
+    if posts:
+        app.logger.info("Post found!")
+        return jsonify(
+            {
+                "code": 200,
+                "data": [post.json() for post in posts]
             }
         )
     return jsonify(

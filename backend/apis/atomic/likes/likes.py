@@ -68,6 +68,27 @@ def get_all_likes():
         }
     ), 404
 
+@app.route("/userLikes/<string:uid>")
+def get_user_likes(uid):
+    likes = db.session.scalars(
+        db.select(Like.post_id).filter_by(uid=uid)
+    )
+
+    if likes:
+        app.logger.info("Users likes found!")
+        return jsonify(
+            {
+                "code": 200,
+                "data": list(likes)
+            }
+        )
+    return jsonify(
+        {
+            "code": 404,
+            "message": "Post has no likes"
+        }
+    ), 404
+
 @app.route("/like/<string:post_id>")
 def get_post_likes(post_id):
     like = db.session.scalars(
@@ -75,7 +96,7 @@ def get_post_likes(post_id):
     )
 
     if like:
-        app.logger.info("Users likeed found!")
+        app.logger.info("Users likes found!")
         return jsonify(
             {
                 "code": 200,

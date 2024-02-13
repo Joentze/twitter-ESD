@@ -40,6 +40,45 @@ Used to get details of all posts
 }  
 ```
   
+## Get All Posts from a User  
+Used to get details of all posts uploaded by requested User    
+  
+**URL** : `/userPosts/poster_uid`    
+**Method** : `GET`    
+**Auth required** : NA  
+  
+### Success Response  
+**Code** : `200 OK`    
+**Content Example**    
+```json  
+{  
+    "code": 200,  
+    "data": {  
+        "posts": [  
+            {  
+                "date posted": "Thu, 08 Feb 2024 12:10:00 GMT",  
+                "post content": "Hello World!",  
+                "post id": "post1_id",  
+                "post location": "New York",  
+                "poster id": "user1_uid"  
+            },  
+            ...
+        ]  
+    }  
+}  
+```
+  
+### Error Response  
+**Condition** : If there are no posts in the database.  
+**Code** : `404 NOT FOUND`  
+**Content Example** :  
+```json  
+{  
+    "code": 404,  
+    "message": "No posts found!"  
+}  
+```
+  
 ## Get Post By Post ID  
 Used to get details of a post by its ID  
   

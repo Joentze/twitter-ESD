@@ -40,6 +40,45 @@ Used to get details of all comments.
 }  
 ```
   
+## Get All Comments From User  
+Used to get details of all comments made by requested User.  
+  
+**URL** : `/userComments/commenter_uid`  
+**Method** : `GET`  
+**Auth required** : NO  
+  
+### Success Response  
+**Code** : `200 OK`  
+**Content Example**  
+```json  
+{  
+    "code": 200,  
+    "data": {  
+        "comments": [  
+            {  
+                "comment id": "comment1_id",  
+                "commenter uid": "user1_uid",  
+                "content": "Great!",  
+                "date commented": "Thu, 08 Feb 2024 12:31:00 GMT",  
+                "post id": "post3_id"  
+            },  
+            ...
+        ]  
+    }  
+}  
+```
+  
+### Error Response  
+**Condition** : If there are no comments in the database.  
+**Code** : `404 NOT FOUND`  
+**Content Example** :  
+```json  
+{  
+    "code": 404,  
+    "message": "No one is commenting each other!"  
+}  
+```
+  
 ## Get Comments By Post ID  
 Used to get details of comments by post ID.  
   
