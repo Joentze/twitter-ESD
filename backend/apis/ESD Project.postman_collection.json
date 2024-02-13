@@ -1,0 +1,868 @@
+{
+	"info": {
+		"_postman_id": "c127ad8b-5f93-4844-b224-797eec43576e",
+		"name": "ESD Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27676725"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get all Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5100/users",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5100/user/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"user",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5100/user/user5_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"user",
+								"user5_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user2 updated\",\n    // \"email\": \"user2@user2.com\",\n    \"is_private\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5100/user/user2_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"user",
+								"user2_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5100/user/user2_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"user",
+								"user2_uid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get all Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5101/posts",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5101/post/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"post",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5101/userPosts/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"userPosts",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"post_content\": \"This is a new post\",\n    \"post_location\": \"California\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5101/post/user4_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"post",
+								"user4_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"post_content\": \"This is post has been updated!\",\n    \"post_location\": \"Sri Lanka\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5101/post/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"post",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5101/posts/post2_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5101",
+							"path": [
+								"posts",
+								"post2_id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get all Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5102/comments",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Comments by User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5102/userComments/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"userComments",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Comments on Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5102/comment/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"comment",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"This is a new comment\",\n    \"commenter_uid\": \"user4_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5102/comment/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"comment",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment_id\": \"comment3_id\",\n    \"content\": \"content updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5102/comment/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"comment",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment_id\": \"comment1_id\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5102/comment/post3_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5102",
+							"path": [
+								"comment",
+								"post3_id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Likes",
+			"item": [
+				{
+					"name": "Get all Likes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5104/follows",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follows"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Likes by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5103/userLikes/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5103",
+							"path": [
+								"userLikes",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Post Likes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5104/follow/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follow",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Like",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uid\": \"user4_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5103/like/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5103",
+							"path": [
+								"like",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Like",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uid\": \"user4_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5103/like/post1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5103",
+							"path": [
+								"like",
+								"post1_id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Follows",
+			"item": [
+				{
+					"name": "Get all Follows",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5104/follows",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follows"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Following",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5104/follow/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follow",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Follow",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"followed_id\": \"user4_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5104/follow/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follow",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Follow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"followed_id\": \"user1_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5104/follow/user2_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5104",
+							"path": [
+								"follow",
+								"user2_uid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Images",
+			"item": [
+				{
+					"name": "Get all Images",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5110/images",
+							"host": [
+								"localhost"
+							],
+							"port": "5110",
+							"path": [
+								"images"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Image by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5110/image/image2_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5110",
+							"path": [
+								"image",
+								"image2_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Images by Uploader",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5110/imageUploadedBy/user1_uid",
+							"host": [
+								"localhost"
+							],
+							"port": "5110",
+							"path": [
+								"imageUploadedBy",
+								"user1_uid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Image",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"uploader_uid\": \"user4_uid\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5110/image/image4_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5110",
+							"path": [
+								"image",
+								"image4_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Image",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5110/image/image3_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5110",
+							"path": [
+								"image",
+								"image3_id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post Images",
+			"item": [
+				{
+					"name": "Get all PostImages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5111/postImages",
+							"host": [
+								"localhost"
+							],
+							"port": "5111",
+							"path": [
+								"postImages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get PostImages by Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5111/postImage/post2_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5111",
+							"path": [
+								"postImage",
+								"post2_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create PostImage",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"post_id\": \"post2_id\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5111/postImage/image1_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5111",
+							"path": [
+								"postImage",
+								"image1_id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete PostImage",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"post_id\": \"post2_id\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5111/postImage/image2_id",
+							"host": [
+								"localhost"
+							],
+							"port": "5111",
+							"path": [
+								"postImage",
+								"image2_id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
