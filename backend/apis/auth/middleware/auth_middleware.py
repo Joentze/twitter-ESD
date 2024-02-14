@@ -1,7 +1,7 @@
 """MIDDLEWARE FOR AUTHORISATION"""
 from functools import wraps
+from flask import request
 from cryptography.hazmat.primitives import serialization
-from flask import redirect, session, url_for
 import jwt
 import requests
 
@@ -55,21 +55,40 @@ def validate_token(token):
         return None
 
 
-def requires_auth(f):
-    """
-    Use on routes that require a valid session, otherwise it aborts with a 403
-    """
+# def requires_auth(f):
+#     """
+#     Use on routes that require a valid session, otherwise it aborts with a 403
+#     """
 
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if session.get('user') is None:
-            return redirect(url_for('auth.login'))
+#     @wraps(f)
+#     def decorated(*args, **kwargs):
+#         if session.get('user') is None:
+#             return redirect(url_for('auth.login'))
 
-        return f(*args, **kwargs)
+#         return f(*args, **kwargs)
 
-    return decorated
+#     return decorated
+
+
+def validate_access_token(func):
+    """authorisation middleware"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        # Extract the access token from the Authorization header
+        access_token = request.headers.get('Authorization')
+
+        if access_token:
+            # Assuming your validate_token function validates the access token
+            decoded_token = validate_token(access_token)
+            if decoded_token:
+                # If the token is valid, execute the original function
+                return func(decoded_token, *args, **kwargs)
+        # If the token is not valid or not provided, return unauthorized
+        return {"message": "Unauthorized Access: Invalid Access Token"}, 401
+
+    return wrapper
 
 
 if __name__ == "__main__":
-    access = """eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9XZjJ5MmVYVEdZejc3ZDZaVVl0SiJ9.eyJpc3MiOiJodHRwczovL2Rldi1leW02eWxwb3BseHIyZjBuLmpwLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NWMxZjY0NjY5Y2VkMjM4OTM2OTk1ZjIiLCJhdWQiOlsiaHR0cHM6Ly9kZXYtZXltNnlscG9wbHhyMmYwbi5qcC5hdXRoMC5jb20vYXBpL3YyLyIsImh0dHBzOi8vZGV2LWV5bTZ5bHBvcGx4cjJmMG4uanAuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTcwNzM3NTgyNiwiZXhwIjoxNzA3NDYyMjI2LCJhenAiOiIxbGRCaDYwTFpYSkdUZHlURmZtcTVWTjZJWEQ3eWVpYyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.oqd6cyfFI6DvY9jlwk5OELUQ9P_eo1RHKrlmiho-9xG6fG0re1P7R1ntdgYt7JQN8Dtbq1TQEFIb-bcjm5HJQTdVgC7qHxRLP0X3TAJynuMC-IoOxZfDhT8x3vmHGKK3hYYxbwwcp6quWjRXjOcwC7XHcCAN_OI3u4GRkm1vbtFRF3ITnY5YTVhlMT-vp0Gf5b4b48xvQwcR6lsmfoN8NZj3TdAHeZq8XwU8oMg_pEYL6MgeumlVwtazdRSuSYcyGQdE3rqnYHYs4umb36D_smwDhoBK6VaUgK6VG-BBARvZ0RSeCmFW1SAr2xOMAvxLW-OZCMfV0N0818lJUPRxMw"""
+    access = """eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9XZjJ5MmVYVEdZejc3ZDZaVVl0SiJ9.eyJpc3MiOiJodHRwczovL2Rldi1leW02eWxwb3BseHIyZjBuLmpwLmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NWMxZjY0NjY5Y2VkMjM4OTM2OTk1ZjIiLCJhdWQiOlsiaHR0cHM6Ly9kZXYtZXltNnlscG9wbHhyMmYwbi5qcC5hdXRoMC5jb20vYXBpL3YyLyIsImh0dHBzOi8vZGV2LWV5bTZ5bHBvcGx4cjJmMG4uanAuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTcwNzkxMzkwMywiZXhwIjoxNzA4MDAwMzAzLCJhenAiOiIxbGRCaDYwTFpYSkdUZHlURmZtcTVWTjZJWEQ3eWVpYyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.MGHsy915amkey8qMEQRUKyquSeRgm9nIdgsMEOsNtylTFirj_WvuJTiCpKRauUdJjBxB1zqTaVrGgt_X2fsqWPPBXOYU6lalY3Up2_MYmIyT42oQmPOOafesmUWAEuqiCGx3RlSOewM56-Mi8hKpGohF6WZBFLk8xNKJxo9t3zXkIHp1xmARTlNc_c6fuwbnnHr8kwdD5G6cSGPe_XTuArpLWZbYAmFWA_-zH_ylJxJ1KwvAU_F0f1M_n2qdSFnZdQWTLlOwBknKt09QVWwrhiogaEwW-F1RP0u3wm4-SCwYoiYXUEdB7iPJCcQUOe_foWhyWJOw6p70I2rMxusN0A"""
     print(validate_token(access))

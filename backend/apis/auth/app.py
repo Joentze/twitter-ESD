@@ -4,10 +4,11 @@
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
-from middleware.auth_middleware import requires_auth
+from middleware.auth_middleware import validate_access_token
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
+from middleware.auth_middleware import validate_access_token
 
 
 ENV_FILE = find_dotenv()
@@ -72,11 +73,12 @@ def logout():
         )
     )
 
-# test middleware
-# @app.route("/secret")
-# @requires_auth
-# def secret_fn():
-#     return "this is my secret"
+
+@app.route("/secret")
+@validate_access_token
+def secret_fn(decoded_token):
+    """tests protected route"""
+    return decoded_token
 
 
 if __name__ == "__main__":
