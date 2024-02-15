@@ -5,5 +5,5 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY ./images.py ./
+COPY ./images/images.py ./
 CMD [ "python", "./images.py" ]

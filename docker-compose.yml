@@ -21,7 +21,9 @@ services:
 
   users_service:
     container_name: users_service
-    build: ./backend/apis/atomic/users
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./users/Dockerfile
     ports:
       - 5100:5100
     env_file:
@@ -33,7 +35,9 @@ services:
 
   posts_service:
     container_name: posts_service
-    build: ./backend/apis/atomic/posts
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./posts/Dockerfile
     ports:
       - 5101:5101
     env_file:
@@ -45,7 +49,9 @@ services:
 
   comments_service:
     container_name: comments_service
-    build: ./backend/apis/atomic/comments
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./comments/Dockerfile
     ports:
       - 5102:5102
     env_file:
@@ -57,7 +63,9 @@ services:
 
   likes_service:
     container_name: likes_service
-    build: ./backend/apis/atomic/likes
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./likes/Dockerfile
     ports:
       - 5103:5103
     env_file:
@@ -69,7 +77,9 @@ services:
 
   follows_service:
     container_name: follows_service
-    build: ./backend/apis/atomic/follows
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./follows/Dockerfile
     ports:
       - 5104:5104
     env_file:
@@ -81,7 +91,9 @@ services:
 
   images_service:
     container_name: images_service
-    build: ./backend/apis/atomic/images
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./images/Dockerfile
     ports:
       - 5110:5110
     env_file:
@@ -93,7 +105,9 @@ services:
 
   post_images_service:
     container_name: post_images_service
-    build: ./backend/apis/atomic/post_images
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./post_images/Dockerfile
     ports:
       - 5111:5111
     env_file:
