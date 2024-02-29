@@ -102,7 +102,19 @@ services:
       - mynet
     depends_on:
       - mysql
-
+  assets_service:
+    container_name: assets_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./asset/Dockerfile
+    ports:
+      - 5105:5105
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - minio
   post_images_service:
     container_name: post_images_service
     build:

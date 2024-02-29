@@ -14,7 +14,7 @@ try:
     MINIO_ACCESS_KEY = os.environ["MINIO_ACCESS_KEY"]
     MINIO_SECRET_KEY = os.environ["MINIO_SECRET_KEY"]
 except KeyError:
-    MINIO_ENDPOINT = "localhost:9000"
+    MINIO_ENDPOINT = "host.docker.internal:9000"
     MINIO_ACCESS_KEY = "ROOTNAME"
     MINIO_SECRET_KEY = "CHANGEME123"
 
@@ -37,21 +37,11 @@ def upload_file():
             object_name = f"{random_id}.{ext}"
             minio_client.put_object(
                 bucket_name="images", object_name=object_name, data=file_obj, length=size)
-            return {"object_name": object_name}, 201
+            return jsonify({"code": 201,
+                            "data": {"object_name": object_name}})
     except S3Error:
-        return 500
-
-
-@app.route("/src", methods=["GET"])
-def get_url():
-    """gets the presigned url from the object name"""
-    object_name = request.args.get("name")
-    if object_name:
-        response = minio_client.presigned_get_object(
-            bucket_name="images", object_name=object_name)
-        return {"url": response}, 200
-    else:
-        return 500
+        return jsonify({"code": 500,
+                        "message": "There was an error with uploading object to bucket"})
 
 
 if __name__ == "__main__":
