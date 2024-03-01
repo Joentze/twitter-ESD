@@ -1,0 +1,51 @@
+# version: "3.8"
+
+# services:
+#   #################################
+#   # Book: The Book microservice
+#   #################################
+#   book:
+#     image: hongrongtan/book:1.0
+#     restart: always
+#     environment:
+#       dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/book
+
+#   ###############################################
+#   # callbook: The test_invoke_http.py program
+#   ###############################################
+#   readposts:
+#     image: hongrongtan/callbook:1.0
+#     # image: swethagottipati/callbook:1.0
+#     depends_on:
+#       - book
+#     environment:
+#       bookURL: http://book:5001/book
+
+version: '3.8'
+
+services:
+  read_posts:
+    build: ./read_posts
+    ports:
+      - "5105:5105"
+    depends_on:
+      - follows
+      - posts
+
+  follows:
+    image: twitter-esd-follows_service
+    ports:
+      - "5104:5104"
+
+  posts:
+    image: twitter-esd-posts_service
+    ports:
+      - "5101:5101"
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+
