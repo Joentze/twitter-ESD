@@ -18,14 +18,14 @@ services:
       - .env
     networks:
       - mynet
-  
+
   read_posts:
     container_name: read_posts_service
     build:
-      context: ./backend/apis/complex/
+      context: ./backend/apis/complex/read_posts
       dockerfile: ./Dockerfile
     ports:
-      - 5105:5105
+      - 5120:5120
     env_file:
       - .env
     networks:
@@ -33,7 +33,9 @@ services:
     depends_on:
       - mysql
       - follows_service
-      - posts_service 
+      - likes_service
+      - comments_service
+      - posts_service
 
   users_service:
     container_name: users_service
