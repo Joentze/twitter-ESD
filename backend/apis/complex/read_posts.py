@@ -1,19 +1,19 @@
-from typing import List
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from datetime import datetime
+"""complex microservice to read posts"""
 import os
-import sys
-
+from typing import List
+from datetime import datetime
 from requests import get
-from invokes import invoke_http
+from flask_cors import CORS
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 CORS(app)
 
-follows_URL = "http://localhost:5104"
-posts_URL = "http://localhost:5101"
-comments_url = "http://localhost:5102"
+
+POSTS_URL = "http://localhost:5101"
+COMMENTS_URL = "http://localhost:5102"
+LIKES_URL = "http://localhost:5103"
+FOLLOWS_URL = "http://localhost:5104"
 
 
 @app.route("/read_posts/<string:uid>", methods=['GET'])
@@ -22,7 +22,7 @@ def read_posts(uid: str):
     try:
         # Send a GET request to retrieve follows information
         print('\n-----Invoking follows microservice-----')
-        request_route = f"{follows_URL}/follow/{uid}"
+        request_route = f"{FOLLOWS_URL}/follow/{uid}"
         follows_response = get(
             request_route, timeout=5000)
         followings = follows_response.json()["data"]
@@ -30,7 +30,7 @@ def read_posts(uid: str):
 
         # gets the post of followings
         for following in followings:
-            get_post_request_route = f"{posts_URL}/userPosts/{following}"
+            get_post_request_route = f"{POSTS_URL}/userPosts/{following}"
             post_following_response = get(get_post_request_route, timeout=5000)
             following_posts = post_following_response.json()["data"]
             all_following_posts += following_posts
@@ -40,7 +40,8 @@ def read_posts(uid: str):
         for idx, post in enumerate(sorted_posts):
             post_id = post["post id"]
             comments = get_sorted_comments(post_id)
-            sorted_posts[idx] = {**post, "comments": comments}
+            likes = get_likes(post_id)
+            sorted_posts[idx] = {**post, "comments": comments, "likes": likes}
 
         return jsonify({
             "code": 200,
@@ -56,10 +57,18 @@ def read_posts(uid: str):
 
 def get_sorted_comments(post_id: str):
     """get all comments sorted by date"""
-    comment_post_route = f"{comments_url}/comment/{post_id}"
+    comment_post_route = f"{COMMENTS_URL}/comment/{post_id}"
     response = get(comment_post_route, timeout=5000)
     comments = response.json()["data"]
     return sort_content_by_date("date commented", comments)
+
+
+def get_likes(post_id: str):
+    """gets all likes on post"""
+    like_post_route = f"{LIKES_URL}/like/{post_id}"
+    response = get(like_post_route, timeout=5000)
+    likes = response.json()["data"]
+    return likes
 
 
 def sort_content_by_date(key: str, items: List[object]):
