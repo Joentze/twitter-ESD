@@ -1,3 +1,4 @@
+from typing import List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
@@ -12,6 +13,7 @@ CORS(app)
 
 follows_URL = "http://localhost:5104"
 posts_URL = "http://localhost:5101"
+comments_url = "http://localhost:5102"
 
 
 @app.route("/read_posts/<string:uid>", methods=['GET'])
@@ -25,14 +27,20 @@ def read_posts(uid: str):
             request_route, timeout=5000)
         followings = follows_response.json()["data"]
         all_following_posts = []
+
+        # gets the post of followings
         for following in followings:
             get_post_request_route = f"{posts_URL}/userPosts/{following}"
             post_following_response = get(get_post_request_route, timeout=5000)
             following_posts = post_following_response.json()["data"]
             all_following_posts += following_posts
 
-        sorted_posts = sorted(all_following_posts, key=lambda item: datetime.strptime(
-            item['date posted'], '%a, %d %b %Y %H:%M:%S %Z'), reverse=True)
+        # gets and sorts the comments within each post
+        sorted_posts = sort_content_by_date("date posted", all_following_posts)
+        for idx, post in enumerate(sorted_posts):
+            post_id = post["post id"]
+            comments = get_sorted_comments(post_id)
+            sorted_posts[idx] = {**post, "comments": comments}
 
         return jsonify({
             "code": 200,
@@ -44,6 +52,20 @@ def read_posts(uid: str):
             "code": 500,
             "message": "Internal server error: " + str(e)
         }), 500
+
+
+def get_sorted_comments(post_id: str):
+    """get all comments sorted by date"""
+    comment_post_route = f"{comments_url}/comment/{post_id}"
+    response = get(comment_post_route, timeout=5000)
+    comments = response.json()["data"]
+    return sort_content_by_date("date commented", comments)
+
+
+def sort_content_by_date(key: str, items: List[object]):
+    """sorts objects by date"""
+    return sorted(items, key=lambda item: datetime.strptime(
+        item[key], '%a, %d %b %Y %H:%M:%S %Z'), reverse=True)
 
 
 # Execute this program if it is run as a main script (not by 'import')
