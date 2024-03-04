@@ -14,6 +14,7 @@ POSTS_URL = "http://localhost:5101"
 COMMENTS_URL = "http://localhost:5102"
 LIKES_URL = "http://localhost:5103"
 FOLLOWS_URL = "http://localhost:5104"
+POST_IMAGE_URL = "http://localhost:5111"
 
 
 @app.route("/read_posts/<string:uid>", methods=['GET'])
@@ -21,7 +22,6 @@ def read_posts(uid: str):
     """returns posts of following"""
     try:
         # Send a GET request to retrieve follows information
-        print('\n-----Invoking follows microservice-----')
         request_route = f"{FOLLOWS_URL}/follow/{uid}"
         follows_response = get(
             request_route, timeout=5000)
@@ -41,7 +41,9 @@ def read_posts(uid: str):
             post_id = post["post id"]
             comments = get_sorted_comments(post_id)
             likes = get_likes(post_id)
-            sorted_posts[idx] = {**post, "comments": comments, "likes": likes}
+            images = get_post_images(post_id)
+            sorted_posts[idx] = {
+                **post, "comments": comments, "likes": likes, "images": images}
 
         return jsonify({
             "code": 200,
@@ -69,6 +71,14 @@ def get_likes(post_id: str):
     response = get(like_post_route, timeout=5000)
     likes = response.json()["data"]
     return likes
+
+
+def get_post_images(post_id: str):
+    """gets all images on post"""
+    post_image_route = f"{POST_IMAGE_URL}/postImage/{post_id}"
+    response = get(post_image_route, timeout=5000)
+    images = response.json()["data"]
+    return images
 
 
 def sort_content_by_date(key: str, items: List[object]):
