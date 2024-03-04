@@ -89,6 +89,20 @@ services:
     depends_on:
       - mysql
 
+  email_service:
+      container_name: email_service
+      build:
+        context: ./backend/apis/atomic/
+        dockerfile: ./email/Dockerfile
+      ports:
+        - 5107:5107
+      env_file:
+        - .env
+      networks:
+        - mynet
+      depends_on:
+        - mysql
+
   images_service:
     container_name: images_service
     build:
@@ -146,6 +160,8 @@ services:
       - 3000:3000
     env_file:
       - .env
+
+  
 
 networks:
   mynet:

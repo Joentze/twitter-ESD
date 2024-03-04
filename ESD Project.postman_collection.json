@@ -864,6 +864,148 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "Send Welcome Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5107/send_welcome_email",
+							"host": [
+								"localhost"
+							],
+							"port": "5107",
+							"path": [
+								"send_welcome_email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Account Deletion Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5107/send_account_deletion_email",
+							"host": [
+								"localhost"
+							],
+							"port": "5107",
+							"path": [
+								"send_account_deletion_email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Password Reset Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5107/send_password_reset_email",
+							"host": [
+								"localhost"
+							],
+							"port": "5107",
+							"path": [
+								"send_password_reset_email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Password Changed Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5107/send_password_changed_email",
+							"host": [
+								"localhost"
+							],
+							"port": "5107",
+							"path": [
+								"send_password_changed_email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Content Removal Warning Email",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user5\",\n    \"email\": \"user5@example.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:5107/send_content_removal_warning_email",
+							"host": [
+								"localhost"
+							],
+							"port": "5107",
+							"path": [
+								"send_content_removal_warning_email"
+							]
+						}
+					},
+					"response": []
+				}
+				
+				
+			]
 		}
 	]
 }
