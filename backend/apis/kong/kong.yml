@@ -1,0 +1,58 @@
+_format_version: "3.0"
+
+# Load balancing
+upstreams:
+  - name: users_upstream
+    algorithm: round-robin
+    targets:
+      - target: users_service-1:5100
+
+# Routes to initialise gateway proxy
+services:
+  - name: user-all
+    url: http://users_service:5100/users
+    routes:
+      - name: users-get-all
+        methods:
+        - GET
+        paths:
+        - /api/user/all
+
+  - name: users_service
+    url: http://users_service:5100/user/
+    routes:
+      - name: users
+        paths:
+          - /api/user
+        methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: posts_service
+    url: http://posts_service:5101/post/
+    routes:
+      - name: posts
+        paths:
+          - /api/post
+        methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+# Initialising cache plugin for selected services
+plugins:
+- name: proxy-cache
+  instance_name: users_cache
+  service: users_service
+  config:
+    strategy: memory
+- name: proxy-cache
+  instance_name: posts_cache
+  service: posts_service
+  config:
+    strategy: memory
