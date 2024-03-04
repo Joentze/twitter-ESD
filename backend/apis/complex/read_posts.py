@@ -105,7 +105,7 @@ def read_posts():
         # Return posts for followers of each user
         return jsonify({
             "code": 200,
-            "data": sorted_posts
+            "data": follower_posts
         }), 200
 
     except Exception as e:
@@ -118,7 +118,6 @@ def read_posts():
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
     print("This is flask " + os.path.basename(__file__) + " for reading posts...")
-    app.run(host="0.0.0.0", port=5120, debug=True)
     app.run(host="0.0.0.0", port=5120, debug=True)
 
 
