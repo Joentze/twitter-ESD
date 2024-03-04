@@ -25,13 +25,12 @@ services:
       context: ./backend/apis/complex/
       dockerfile: ./Dockerfile
     ports:
-      - 5105:5105
+      - 5120:5120
     env_file:
       - .env
     networks:
       - mynet
     depends_on:
-      - mysql
       - follows_service
       - posts_service 
 
