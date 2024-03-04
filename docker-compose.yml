@@ -23,7 +23,7 @@ services:
     container_name: read_posts_service
     build:
       context: ./backend/apis/complex/
-      dockerfile: ./Dockerfile
+      dockerfile: ./read_posts/Dockerfile
     ports:
       - 5120:5120
     env_file:
