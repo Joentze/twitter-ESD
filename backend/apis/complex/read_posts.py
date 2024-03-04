@@ -1,5 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from datetime import datetime
+import os
+import sys
 
 import os, sys
 
@@ -102,9 +105,8 @@ def read_posts():
         # Return posts for followers of each user
         return jsonify({
             "code": 200,
-            "data": follower_posts
+            "data": sorted_posts
         }), 200
-
 
     except Exception as e:
         return jsonify({
@@ -113,10 +115,10 @@ def read_posts():
         }), 500
 
 
-
 # Execute this program if it is run as a main script (not by 'import')
 if __name__ == "__main__":
     print("This is flask " + os.path.basename(__file__) + " for reading posts...")
+    app.run(host="0.0.0.0", port=5120, debug=True)
     app.run(host="0.0.0.0", port=5120, debug=True)
 
 
