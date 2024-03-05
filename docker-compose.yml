@@ -19,28 +19,15 @@ services:
     networks:
       - mynet
   
-  read_posts:
-    container_name: read_posts_service
-    build:
-      context: ./backend/apis/complex/
-      dockerfile: ./read_posts/Dockerfile
-    ports:
-      - 5120:5120
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - follows_service
-      - posts_service 
-
   users_service:
-    # container_name: users_service
+    # remove container name for load balancing
+    container_name: users_service
     build:
       context: ./backend/apis/atomic/
       dockerfile: ./users/Dockerfile
-    # ports:
-    #   - 5100:5100
+    # remove port mapping for load balancing
+    ports:
+      - 5100:5100
     env_file:
       - .env
     networks:
@@ -104,19 +91,6 @@ services:
     depends_on:
       - mysql
 
-  images_service:
-    container_name: images_service
-    build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./images/Dockerfile
-    ports:
-      - 5110:5110
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
   assets_service:
     container_name: assets_service
     build:
@@ -130,6 +104,21 @@ services:
       - mynet
     depends_on:
       - minio
+
+  images_service:
+    container_name: images_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./images/Dockerfile
+    ports:
+      - 5110:5110
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
   post_images_service:
     container_name: post_images_service
     build:
@@ -143,6 +132,21 @@ services:
       - mynet
     depends_on:
       - mysql
+
+  read_posts_service:
+    container_name: read_posts_service
+    build:
+      context: ./backend/apis/complex/
+      dockerfile: ./read_posts/Dockerfile
+    ports:
+      - 5120:5120
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - follows_service
+      - posts_service 
 
   minio:
     image: quay.io/minio/minio
