@@ -7,6 +7,7 @@ Enterprise Solution Development Group Project
 ├── backend
 │   ├── apis
 │   │   ├── atomic
+│   │   │   ├── asset
 │   │   │   ├── comments
 │   │   │   ├── follows
 │   │   │   ├── images
@@ -14,7 +15,11 @@ Enterprise Solution Development Group Project
 │   │   │   ├── post_images
 │   │   │   ├── posts
 │   │   │   └── users
-│   │   └── auth
+│   │   ├── auth
+│   │   ├── complex
+│   │   │   ├── read_posts
+│   │   │   └── upload_image
+│   │   └── kong
 │   ├── bucket
 │   ├── database
 │   └── rabbitmq
