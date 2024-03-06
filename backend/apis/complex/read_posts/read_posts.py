@@ -24,17 +24,18 @@ log_handler.setFormatter(log_formatter)
 app.logger.addHandler(log_handler)
 app.logger.setLevel(logging.INFO)
 
-follows_URL = "http://host.docker.internal:5104/follow"
-posts_URL = "http://host.docker.internal:5101/userPosts"
+follows_URL = "http://host.docker.internal:8000/api/follow"
+posts_URL = "http://host.docker.internal:8000/api/post/user_get"
 
-@app.route("/read_posts/", methods=['GET'])
+@app.route("/read_posts", methods=['GET'])
 def read_posts():
+    # app.logger.info("THIS IS CALLED")
     try:
         # Send a GET request to retrieve follows information
         print('\n-----Invoking follows microservice-----')
 
         user_uid = request.headers.get('uid')
-        app.logger.info('test test uid')
+        # app.logger.info('test test uid')
 
         if not user_uid:
             return jsonify({
@@ -54,12 +55,12 @@ def read_posts():
         # follows_data = follows_response.get("data", [])
         # print('follows_response:', follows_data)
         
-        app.logger.info(follows_response)
+        # app.logger.info(follows_response)
 
         # Check if the response is successful
         if "code" not in follows_response or follows_response["code"] != 200:
             # Error handling if the follows microservice call fails
-            app.logger.info('test test')
+            # app.logger.info('test test')
 
             return jsonify({
                 "code": follows_response.get("code", 500),
@@ -74,32 +75,28 @@ def read_posts():
         print(followers_dict)
 
         # Retrieve posts for followers of each user
-        
-        follower_posts = {}
+
+        follower_posts = []
         for user_id, follower_ids in followers_dict.items():
             print(follower_ids)
-            user_follower_posts = []
             for follower_id in follower_ids:
                 print(follower_id)
                 new_PostsURL = posts_URL + "/" + follower_id
                 follower_posts_response = invoke_http(new_PostsURL, method='GET')
+                # app.logger.info(follower_posts_response)
                 if "code" not in follower_posts_response or follower_posts_response["code"] != 200:
                 # Error handling if the follows microservice call fails
-                    return jsonify({
-                        "code": follower_posts_response.get("code", 500),
-                        "message": "Failed to retrieve posts information"
-                    }), follower_posts_response.get("code", 500)
-                follower_posts_data = follower_posts_response.get("data", [])
+                    continue
+                follower_posts += follower_posts_response.get("data", [])
 
-                # Append follower's posts to user_follower_posts
-                user_follower_posts.extend(follower_posts_data)
+        if not follower_posts:
+            return jsonify({
+                "code": follower_posts_response.get("code", 500),
+                "message": "Failed to retrieve posts information"
+            }), follower_posts_response.get("code", 500)
 
-            # Sort user_follower_posts by date
-            user_follower_posts.sort(key=lambda x: x.get("date_posted", ""), reverse=True)
-
-            # Store sorted posts for followers of user_id
-            follower_posts[user_id] = user_follower_posts
-
+        # Sort user_follower_posts by date
+        follower_posts.sort(key=lambda x: x.get("date posted", ""), reverse=True)
 
         print(follower_posts)
         # Return posts for followers of each user
