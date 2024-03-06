@@ -104,6 +104,33 @@ services:
     depends_on:
       - mysql
 
+  email_service:
+      container_name: email_service
+      build:
+        context: ./backend/apis/atomic/
+        dockerfile: ./email/Dockerfile
+      ports:
+        - 5107:5107
+      env_file:
+        - .env
+      networks:
+        - mynet
+      depends_on:
+        - mysql
+
+  images_service:
+    container_name: images_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./images/Dockerfile
+    ports:
+      - 5110:5110
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
   assets_service:
     container_name: assets_service
     build:
@@ -210,6 +237,8 @@ services:
       interval: 5s
       timeout: 2s
       retries: 15
+
+  
 
 networks:
   mynet:
