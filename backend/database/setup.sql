@@ -31,6 +31,7 @@ CREATE TABLE POSTS(
     poster_uid VARCHAR(100) NOT NULL,
     post_content VARCHAR(300),
     post_location VARCHAR(300),
+    post_images JSON,
     date_posted TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (poster_uid) REFERENCES USERS(uid) ON DELETE cascade
 );
@@ -52,22 +53,6 @@ CREATE TABLE COMMENTS(
     date_commented TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     PRIMARY KEY (comment_id, commenter_uid, post_id),
     FOREIGN KEY (commenter_uid) REFERENCES USERS(uid) ON DELETE cascade,
-    FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE cascade
-);
-
-CREATE TABLE IMAGES(
-    object_id VARCHAR(100) NOT NULL PRIMARY KEY,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    uploader_uid VARCHAR(100) NOT NULL,
-    FOREIGN KEY (uploader_uid) REFERENCES USERS(uid) ON DELETE cascade
-);
-
-CREATE TABLE POST_IMAGE(
-    object_id VARCHAR(100) NOT NULL,
-    post_id CHAR(36) NOT NULL,
-    date_used TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    PRIMARY KEY(object_id, post_id),
-    FOREIGN KEY (object_id) REFERENCES IMAGES(object_id) ON DELETE cascade,
     FOREIGN KEY (post_id) REFERENCES POSTS(post_id) ON DELETE cascade
 );
 
@@ -115,91 +100,79 @@ VALUES
     ('user3_uid', 'user1_uid', '2024-02-08 12:05:00');
 
 -- Seed POSTS table with fake data
-INSERT INTO
-    POSTS (
-        post_id,
-        poster_uid,
-        post_content,
-        post_location,
-        date_posted
-    )
-VALUES
-    (
-        'post1_id',
-        'user1_uid',
-        'Hello World!',
-        'New York',
-        '2024-02-08 12:10:00'
-    ),
-    (
-        'post2_id',
-        'user2_uid',
-        'Good morning!',
-        'Los Angeles',
-        '2024-02-08 12:20:00'
-    ),
-    (
-        'post3_id',
-        'user3_uid',
-        'Feeling happy today!',
-        'Chicago',
-        '2024-02-08 12:30:00'
-    );
-
--- Seed LIKES table with fake data
-INSERT INTO
-    LIKES (uid, post_id, date_liked)
-VALUES
-    ('user1_uid', 'post2_id', '2024-02-08 12:11:00'),
-    ('user2_uid', 'post1_id', '2024-02-08 12:12:00'),
-    ('user3_uid', 'post1_id', '2024-02-08 12:13:00'),
-    ('user1_uid', 'post3_id', '2024-02-08 12:14:00'),
-    ('user2_uid', 'post3_id', '2024-02-08 12:15:00');
-
--- Seed COMMENTS table with fake data
-INSERT INTO
-    COMMENTS (
-        comment_id,
-        commenter_uid,
-        post_id,
-        content,
-        date_commented
-    )
-VALUES
-    (
-        'comment1_id',
-        'user1_uid',
-        'post3_id',
-        'Great!',
-        '2024-02-08 12:31:00'
-    ),
-    (
-        'comment2_id',
-        'user2_uid',
-        'post2_id',
-        'Nice!',
-        '2024-02-08 12:32:00'
-    ),
-    (
-        'comment3_id',
-        'user3_uid',
-        'post1_id',
-        'Awesome!',
-        '2024-02-08 12:33:00'
-    );
-
--- Seed IMAGES table with fake data
-INSERT INTO
-    IMAGES (object_id, date_created, uploader_uid)
-VALUES
-    ('image1_id', '2024-02-08 12:40:00', 'user1_uid'),
-    ('image2_id', '2024-02-08 12:41:00', 'user2_uid'),
-    ('image3_id', '2024-02-08 12:42:00', 'user3_uid');
-
--- Seed POST_IMAGE table with fake data
-INSERT INTO
-    POST_IMAGE (object_id, post_id, date_used)
-VALUES
-    ('image1_id', 'post1_id', '2024-02-08 12:43:00'),
-    ('image2_id', 'post2_id', '2024-02-08 12:44:00'),
-    ('image3_id', 'post3_id', '2024-02-08 12:45:00');
+ INSERT INTO
+     POSTS (
+         post_id,
+         poster_uid,
+         post_content,
+         post_location,
+         post_images,
+         date_posted
+     )
+ VALUES
+     (
+         'post1_id',
+         'user1_uid',
+         'Hello World!',
+         'New York',
+         '["image1.jpg", "image2.jpg"]',
+         '2024-02-08 12:10:00'
+     ),
+     (
+         'post2_id',
+         'user2_uid',
+         'Good morning!',
+         'Los Angeles',
+         '["image3.jpg"]',
+         '2024-02-08 12:20:00'
+     ),
+     (
+         'post3_id',
+         'user3_uid',
+         'Feeling happy today!',
+         'Chicago',
+         '[]',
+         '2024-02-08 12:30:00'
+     );
+ 
+ -- Seed LIKES table with fake data
+ INSERT INTO
+     LIKES (uid, post_id, date_liked)
+ VALUES
+     ('user1_uid', 'post2_id', '2024-02-08 12:11:00'),
+     ('user2_uid', 'post1_id', '2024-02-08 12:12:00'),
+     ('user3_uid', 'post1_id', '2024-02-08 12:13:00'),
+     ('user1_uid', 'post3_id', '2024-02-08 12:14:00'),
+     ('user2_uid', 'post3_id', '2024-02-08 12:15:00');
+ 
+ -- Seed COMMENTS table with fake data
+ INSERT INTO
+     COMMENTS (
+         comment_id,
+         commenter_uid,
+         post_id,
+         content,
+         date_commented
+     )
+ VALUES
+     (
+         'comment1_id',
+         'user1_uid',
+         'post3_id',
+         'Great!',
+         '2024-02-08 12:31:00'
+     ),
+     (
+         'comment2_id',
+         'user2_uid',
+         'post2_id',
+         'Nice!',
+         '2024-02-08 12:32:00'
+     ),
+     (
+         'comment3_id',
+         'user3_uid',
+         'post1_id',
+         'Awesome!',
+         '2024-02-08 12:33:00'
+     );
