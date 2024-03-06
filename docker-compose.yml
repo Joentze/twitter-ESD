@@ -18,7 +18,20 @@ services:
       - .env
     networks:
       - mynet
-
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    # restarts service until rabbitmq starts up, no available depends_on condition that works
+    restart: always
   users_service:
     # remove container name for load balancing
     container_name: users_service
