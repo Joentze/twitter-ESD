@@ -28,8 +28,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./backend/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./backend/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
     # restarts service until rabbitmq starts up, no available depends_on condition that works
     restart: always
   users_service:
