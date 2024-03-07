@@ -55,6 +55,9 @@ def upload_post(uid: str) -> None:
 
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
+    # =====================================
+    # ====ADD EMMANUEL'S ANALYSER HERE=====
+    # =====================================
     return False
 
 
