@@ -5,3 +5,4 @@ mysql-connector-python==8.2.0
 python-dotenv==1.0.1
 minio
 sib_api_v3_sdk==7.6.0
+pika
