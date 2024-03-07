@@ -2,7 +2,7 @@
 import os
 import json
 import pika
-from requests import get
+from requests import get, post
 from typing import TypedDict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -11,6 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 USER_URL = "http://localhost:5100"
+POST_URL = "http://localhost:5101"
 
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
@@ -38,7 +39,7 @@ def upload_post(uid: str) -> None:
         is_sfw = check_content(content)
         try:
             if is_sfw:
-                pass
+                create_post(uid, content, location, images)
             else:
                 email, username = get_user_email_name(uid)
                 print(email, username)
@@ -74,6 +75,14 @@ def get_user_email_name(uid: str) -> tuple:
     response = get(user_info_route, timeout=5000)
     data = response.json()["data"]
     return data["user email"], data["username"]
+
+
+def create_post(uid: str, post_content: str, post_location: str, post_images: List[str]) -> object:
+    """creates post request"""
+    post_route = f"{POST_URL}/post/{uid}"
+    response = post(post_route, data={"post_content": post_content,
+                                      "post_location": post_location, "post_images": post_images}, timeout=5000)
+    return response.json()
 
 
 if __name__ == "__main__":
