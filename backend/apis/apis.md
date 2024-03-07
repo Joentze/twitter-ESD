@@ -38,19 +38,6 @@ Get user following: `GET /follow/uid`
 Create new user following: `POST /follow/uid`  
 Delete user following: `DELETE /follow/uid`  
 
-**[Images](atomic/images/images.md)**  
-Get all images: `GET /images/`  
-Get images from user: `GET /imageUploadedBy/uploader_uid`  
-Get images by ID: `GET /image/object_id`  
-Create new image: `POST /image/object_id`  
-Delete image: `DELETE /image/object_id`  
-
-**[Post Image](atomic/post_images/post_images.md)**  
-Get all post images: `GET /postImages/`  
-Get images of post: `GET /postImage/post_id`  
-Create new post image: `POST /postImage/object_id`  
-Delete post image: `DELETE /postImage/object_id`  
-
 **[Assets](atomic/assets/assets.md)**  
 Upload new image: `POST /asset/upload`  
 

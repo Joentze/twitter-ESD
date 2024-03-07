@@ -38,13 +38,15 @@ class Post(db.Model):
     poster_uid = db.Column(db.String(100), nullable=False)
     post_content = db.Column(db.String(300))
     post_location = db.Column(db.String(300))
+    post_images = db.Column(db.JSON)
     date_posted = db.Column(db.TIMESTAMP, default=datetime.utcnow, nullable=False)
 
-    def __init__(self, poster_uid, post_content, post_location):
+    def __init__(self, poster_uid, post_content, post_location, post_images):
         self.post_id = str(uuid.uuid4())
         self.poster_uid = poster_uid
         self.post_content = post_content
         self.post_location = post_location
+        self.post_images = post_images
 
     def json(self):
         return {
@@ -52,6 +54,7 @@ class Post(db.Model):
             "poster id": self.poster_uid,
             "post content": self.post_content,
             "post location": self.post_location,
+            "post images": self.post_images,
             "date posted": self.date_posted
         }
 

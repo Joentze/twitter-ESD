@@ -20,6 +20,10 @@ Used to get details of all posts
                 "date posted": "Thu, 08 Feb 2024 12:10:00 GMT",  
                 "post content": "Hello World!",  
                 "post id": "post1_id",  
+                "post images": [
+                    "image1.jpg",
+                    "image2.jpg"
+                ],
                 "post location": "New York",  
                 "poster id": "user1_uid"  
             },  
@@ -59,6 +63,10 @@ Used to get details of all posts uploaded by requested User
                 "date posted": "Thu, 08 Feb 2024 12:10:00 GMT",  
                 "post content": "Hello World!",  
                 "post id": "post1_id",  
+                "post images": [
+                    "image1.jpg",
+                    "image2.jpg"
+                ],
                 "post location": "New York",  
                 "poster id": "user1_uid"  
             },  
@@ -96,6 +104,10 @@ Used to get details of a post by its ID
         "date posted": "Thu, 08 Feb 2024 12:10:00 GMT",
         "post content": "Hello World!",
         "post id": "post1_id",
+        "post images": [
+            "image1.jpg",
+            "image2.jpg"
+        ],
         "post location": "New York",
         "poster id": "user1_uid"
     }
@@ -146,6 +158,9 @@ Creating a new post
         "date posted": "Mon, 12 Feb 2024 15:13:00 GMT",
         "post content": "This is a new post",
         "post id": "4d5225f4-217d-4660-b596-0e6802786c77",
+        "post images": [
+            "image5.jpg"
+        ],
         "post location": "California",
         "poster id": "user4_uid"
     }
@@ -188,6 +203,10 @@ Updating post details
         "date posted": "Thu, 08 Feb 2024 12:10:00 GMT",
         "post content": "This is post has been updated!",
         "post id": "post1_id",
+        "post images": [
+            "image3.jpg",
+            "image4.jpg"
+        ],
         "post location": "updated location",
         "poster id": "user1_uid"
     }

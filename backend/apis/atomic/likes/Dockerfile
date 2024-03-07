@@ -5,5 +5,5 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY ./likes/likes.py ./
+COPY ./atomic/likes/likes.py ./
 CMD [ "python", "./likes.py" ]
