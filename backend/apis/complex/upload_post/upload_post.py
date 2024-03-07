@@ -1,4 +1,6 @@
 """complex microservice for uploading post"""
+import os
+import pika
 from requests import get
 from typing import TypedDict, List
 from flask import Flask, request, jsonify
@@ -8,6 +10,16 @@ app = Flask(__name__)
 CORS(app)
 
 USER_URL = "http://localhost:5100"
+
+try:
+    RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
+    RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
+except KeyError:
+    RABBITMQ_HOST = "localhost"
+    RABBITMQ_PORT = 5672
+
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT))
 
 
 class UploadBody(TypedDict):
