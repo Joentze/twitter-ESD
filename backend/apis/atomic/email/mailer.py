@@ -1,36 +1,47 @@
-from flask import Flask, request, jsonify
-from dotenv import load_dotenv
-
-import logging
-from logging.handlers import RotatingFileHandler
+"""mailer microservice"""
 import os
+import pika
+import json
+from typing import TypedDict
+from enum import Enum
+
 
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 
 
-load_dotenv()
-
 # Load SendinBlue API key from environment variables
-sendinblue_api_key = os.getenv("SENDINBLUE_API_KEY")
+SENDINBLUE_API_KEY = os.environ["SENDINBLUE_API_KEY"]
+try:
+    RABBIT_MQ_HOST = os.environ["RABBITMQ_HOST"]
+except KeyError:
+    RABBIT_MQ_HOST = "localhost:5672"
 
+
+# AMQP connection to RabbitMQ
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters(host=RABBIT_MQ_HOST))
 # Create a SendinBlue API configuration
 configuration = sib_api_v3_sdk.Configuration()
-configuration.api_key['api-key'] = sendinblue_api_key
+configuration.api_key['api-key'] = SENDINBLUE_API_KEY
 
 # Initialize the SendinBlue API instance
 api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
     sib_api_v3_sdk.ApiClient(configuration))
 
 
-# Configure logging
-log_formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s')
-log_handler = RotatingFileHandler(
-    'email_service.log', maxBytes=1024 * 1024, backupCount=5)
-log_handler.setFormatter(log_formatter)
-
-
 # Define the email sender function
+class MessageEnum (Enum):
+    """enum for message type"""
+    WELCOME_EMAIL = "WELCOME_EMAIL"
+    CONTENT_WARNING = "CONTENT_WARNING"
+
+
+class MessageBody(TypedDict):
+    """typed dictionary for rabbitmq message body"""
+    message_type: MessageEnum
+    email: str
+    username: str
 
 
 def send_email(subject, html_content, to_address, receiver_name="User"):
@@ -100,4 +111,5 @@ def send_content_removal_warning_email(email: str, username: str):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5107, debug=True)
+    # app.run(host='0.0.0.0', port=5107, debug=True)
+    pass
