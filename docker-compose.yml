@@ -18,7 +18,20 @@ services:
       - .env
     networks:
       - mynet
-
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./backend/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./backend/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    # restarts service until rabbitmq starts up, no available depends_on condition that works
+    restart: always
   users_service:
     # remove container name for load balancing
     container_name: users_service
@@ -91,11 +104,38 @@ services:
     depends_on:
       - mysql
 
+  email_service:
+    container_name: email_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./email/Dockerfile
+    ports:
+      - 5107:5107
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+
+  images_service:
+    container_name: images_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./images/Dockerfile
+    ports:
+      - 5110:5110
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
   assets_service:
     container_name: assets_service
     build:
-      context: ./backend/apis/
-      dockerfile: ./atomic/asset/Dockerfile
+      context: ./backend/apis/atomic/
+      dockerfile: ./asset/Dockerfile
     ports:
       - 5105:5105
     env_file:
@@ -104,6 +144,20 @@ services:
       - mynet
     depends_on:
       - minio
+
+  post_images_service:
+    container_name: post_images_service
+    build:
+      context: ./backend/apis/atomic/
+      dockerfile: ./post_images/Dockerfile
+    ports:
+      - 5111:5111
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
 
   read_posts_service:
     container_name: read_posts_service
@@ -131,13 +185,13 @@ services:
       - ./backend/bucket/minio/data:/data
     command: server /data --console-address ":9001"
 
-  # auth0:
-  #   container_name: auth0-login
-  #   build: ./backend/apis/auth
-  #   ports:
-  #     - 3000:3000
-  #   env_file:
-  #     - .env
+  auth0:
+    container_name: auth0-login
+    build: ./backend/apis/auth
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
 
   kong:
     container_name: kong_dbless

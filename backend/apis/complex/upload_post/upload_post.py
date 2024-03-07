@@ -7,6 +7,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
+USER_URL = "http://localhost:5100"
+
 
 class UploadBody(TypedDict):
     """upload body typings"""
@@ -26,7 +28,9 @@ def upload_post(uid: str) -> None:
             if is_sfw:
                 pass
             else:
-                pass
+                email, username = get_user_email_name(uid)
+                send_content_warning(email, username)
+
         except Exception as e:
             print(e)
             return jsonify({"code": 500, "message": "there was an error on the server"}), 500
@@ -40,10 +44,14 @@ def check_content(text: str) -> bool:
     return False
 
 
-def send_email_notification(email: str, username: str) -> None:
-    """publishes notification message to rabbitmq"""
+def send_content_warning(email: str, username: str) -> None:
+    """publishes content warning message to rabbitmq"""
     return
 
 
-def get_user_info(uid: str) -> object:
+def get_user_email_name(uid: str) -> tuple:
     """gets user information from uid"""
+    user_info_route = f"{USER_URL}/user/{uid}"
+    response = get(user_info_route, timeout=5000)
+    data = response.json()["data"]
+    return data["user email"], data["username"]
