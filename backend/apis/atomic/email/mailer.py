@@ -13,14 +13,16 @@ from sib_api_v3_sdk.rest import ApiException
 # Load SendinBlue API key from environment variables
 SENDINBLUE_API_KEY = os.environ["SENDINBLUE_API_KEY"]
 try:
-    RABBIT_MQ_HOST = os.environ["RABBITMQ_HOST"]
+    RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
+    RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
 except KeyError:
-    RABBIT_MQ_HOST = "localhost"
+    RABBITMQ_HOST = "localhost"
+    RABBITMQ_PORT = 5672
 
 
 # AMQP connection to RabbitMQ
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=5672))
+    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT))
 # Create a SendinBlue API configuration
 configuration = sib_api_v3_sdk.Configuration()
 configuration.api_key['api-key'] = SENDINBLUE_API_KEY
