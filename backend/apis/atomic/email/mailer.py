@@ -15,12 +15,12 @@ SENDINBLUE_API_KEY = os.environ["SENDINBLUE_API_KEY"]
 try:
     RABBIT_MQ_HOST = os.environ["RABBITMQ_HOST"]
 except KeyError:
-    RABBIT_MQ_HOST = "localhost:5672"
+    RABBIT_MQ_HOST = "localhost"
 
 
 # AMQP connection to RabbitMQ
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host=RABBIT_MQ_HOST))
+    pika.ConnectionParameters(host=RABBIT_MQ_HOST, port=5672))
 # Create a SendinBlue API configuration
 configuration = sib_api_v3_sdk.Configuration()
 configuration.api_key['api-key'] = SENDINBLUE_API_KEY
@@ -110,6 +110,21 @@ def send_content_removal_warning_email(email: str, username: str):
         print(e)
 
 
+def message_callback(ch, method, properties, body) -> None:
+    """callback function message"""
+    message_body: MessageBody = json.loads(body)
+    email, username, message_type = message_body["email"], message_body["username"], message_body["message_type"]
+    if message_type == MessageEnum.WELCOME_EMAIL.value:
+        send_welcome_email(email, username)
+    elif message_type == MessageEnum.CONTENT_WARNING.value:
+        send_content_removal_warning_email(email, username)
+    return None
+
+
 if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=5107, debug=True)
-    pass
+    NOTIFICATION_QUEUE = "notification-queue"
+    channel = connection.channel()
+    channel.queue_declare(queue=NOTIFICATION_QUEUE, durable=True)
+    channel.basic_consume(queue=NOTIFICATION_QUEUE,
+                          on_message_callback=message_callback, auto_ack=True)
+    channel.start_consuming()
