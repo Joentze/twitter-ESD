@@ -63,13 +63,13 @@ def send_email(subject, html_content, to_address, receiver_name="User"):
 
 def send_welcome_email(email: str, username: str) -> None:
     """sends welcome email to new user"""
-    subject = "Welcome to ESD-Twitter!"
+    subject = "Welcome to Yapper!"
     html_content = """
         <html>
             <body>
-                <h1>Welcome to ESD-Twitter!</h1>
+                <h1>Welcome to Yapper!</h1>
             <p>Thank you for joining our community. We're excited to have you on board.</p>
-            <p>ESD-Twitter is a platform where you can share updates, connect with friends, and explore what's happening around the world in real-time.</p>
+            <p>Yapper is a platform where you can share updates, connect with friends, and explore what's happening around the world in real-time.</p>
             <h2>Getting Started</h2>
             <p>Here are some steps to get you started:</p>
             <ul>
@@ -80,7 +80,7 @@ def send_welcome_email(email: str, username: str) -> None:
             <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
             <p>We're glad you're here!</p>
             <p>Best regards,</p>
-            <p>The ESD-Twitter Team</p>
+            <p>The Yapper Team</p>
             </body>
         </html>
     """
@@ -102,7 +102,7 @@ def send_content_removal_warning_email(email: str, username: str):
                 <p>We encourage you to review our content guidelines and terms of service. Repeat violations may lead to further actions, including account suspension. We value your participation in our community and hope you understand the importance of these policies.</p>
                 <p>If you believe this was a mistake or if you have any questions, please don't hesitate to contact our support team.</p>
                 <p>Best regards,</p>
-                <p>The ESD-Twitter Team</p>
+                <p>The Yapper Team</p>
             </body>
         </html>
     """
