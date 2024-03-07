@@ -23,8 +23,8 @@ services:
     # remove container name for load balancing
     container_name: users_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./users/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/users/Dockerfile
     # remove port mapping for load balancing
     ports:
       - 5100:5100
@@ -38,8 +38,8 @@ services:
   posts_service:
     container_name: posts_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./posts/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/posts/Dockerfile
     ports:
       - 5101:5101
     env_file:
@@ -52,8 +52,8 @@ services:
   comments_service:
     container_name: comments_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./comments/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/comments/Dockerfile
     ports:
       - 5102:5102
     env_file:
@@ -66,8 +66,8 @@ services:
   likes_service:
     container_name: likes_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./likes/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/likes/Dockerfile
     ports:
       - 5103:5103
     env_file:
@@ -80,8 +80,8 @@ services:
   follows_service:
     container_name: follows_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./follows/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/follows/Dockerfile
     ports:
       - 5104:5104
     env_file:
@@ -94,8 +94,8 @@ services:
   assets_service:
     container_name: assets_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./asset/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/asset/Dockerfile
     ports:
       - 5105:5105
     env_file:
@@ -105,39 +105,11 @@ services:
     depends_on:
       - minio
 
-  images_service:
-    container_name: images_service
-    build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./images/Dockerfile
-    ports:
-      - 5110:5110
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
-
-  post_images_service:
-    container_name: post_images_service
-    build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./post_images/Dockerfile
-    ports:
-      - 5111:5111
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
-
   read_posts_service:
     container_name: read_posts_service
     build:
-      context: ./backend/apis/complex/
-      dockerfile: ./read_posts/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./complex/read_posts/Dockerfile
     ports:
       - 5120:5120
     env_file:

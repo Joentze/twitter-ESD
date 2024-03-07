@@ -5,5 +5,5 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
-COPY ./comments/comments.py ./
+COPY ./atomic/comments/comments.py ./
 CMD [ "python", "./comments.py" ]
