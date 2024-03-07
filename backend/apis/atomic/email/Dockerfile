@@ -6,4 +6,4 @@ COPY requirements.txt ./
 RUN python -m pip install --no-cache-dir -r requirements.txt
 
 COPY ./email/emailing.py ./
-CMD [ "python", "./emailing.py" ]
+CMD [ "python", "./mailer.py" ]
