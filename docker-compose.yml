@@ -81,14 +81,14 @@ services:
     build:
       context: ./backend/apis/atomic/
       dockerfile: ./content_check/Dockerfile
-      ports:
-        - 5108:5108
-      env_file:
-        - .env
-      networks:
-        - mynet
-      depends_on:
-        - mysql
+    ports:
+      - 5108:5108
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
 
   likes_service:
     container_name: likes_service
@@ -145,6 +145,7 @@ services:
       - mynet
     depends_on:
       - mysql
+      
   assets_service:
     container_name: assets_service
     build:
