@@ -7,7 +7,20 @@ Used for text analysis to determine if content is safe for work
 **URL** : `/post/validate`  
 **Method** : `GET`  
 **Auth required** : NO  
-  
+
+**Data constraints** :  
+```json  
+{  
+    "input": "[post content]",  
+}  
+```
+**Data Example**  
+```json  
+{  
+    "input": "This is a new post", 
+}  
+```
+
 ### Success Response  
 **Condition** : If content is safe for work.
 **Code** : `200 OK`  
