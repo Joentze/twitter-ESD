@@ -35,12 +35,14 @@ def content_check():
         return jsonify(
             {
                 "code":200,
+                "message": "Content is safe!"
             }
         )
     else:
         return jsonify(
             {
                 "code":500,
+                "message": "Content violates guidelines!", 
             }
         )
 
