@@ -16,9 +16,6 @@ USER_URL = "http://localhost:5100"
 POST_URL = "http://localhost:5101"
 
 
-API_URL = "https://api-inference.huggingface.co/models/michellejieli/NSFW_text_classifier"
-headers = {"Authorization": "Bearer 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"}
-
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
     RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
@@ -62,14 +59,7 @@ def upload_post(uid: str) -> None:
 
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
-    req_body = text.json
-    response=requests.post(API_URL,headers=headers, json=req_body)
-    data=response.json()[0]
-    sfw=data[0]
-    nsfw=data[1]
-    
-    if sfw['score']<0.3:
-        return True
+   
     return False
 
 
