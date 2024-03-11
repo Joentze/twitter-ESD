@@ -29,7 +29,7 @@ class ScoreType(TypedDict):
 # Configure logging
 API_URL = "https://api-inference.huggingface.co/models/michellejieli/NSFW_text_classifier"
 HUGGING_FACE_TOKEN = os.environ["HUGGING_FACE_TOKEN"]
-headers = {"Authorization": f"Bearer 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"}
+headers = {"Authorization": f"Bearer {HUGGING_FACE_TOKEN}"}
 
 
 @app.route('/post/validate/')
