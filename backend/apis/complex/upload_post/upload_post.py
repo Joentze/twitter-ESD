@@ -6,12 +6,15 @@ from requests import get, post
 from typing import TypedDict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
+
 
 app = Flask(__name__)
 CORS(app)
 
 USER_URL = "http://localhost:5100"
 POST_URL = "http://localhost:5101"
+
 
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
@@ -53,11 +56,10 @@ def upload_post(uid: str) -> None:
         return jsonify({"code": 400, "message": "Post data not formatted correctly"}), 400
 
 
+
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
-    # =====================================
-    # ====ADD EMMANUEL'S ANALYSER HERE=====
-    # =====================================
+   
     return False
 
 
