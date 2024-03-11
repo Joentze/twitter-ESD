@@ -24,8 +24,8 @@ log_handler.setFormatter(log_formatter)
 app.logger.addHandler(log_handler)
 app.logger.setLevel(logging.INFO)
 
-follows_URL = "http://host.docker.internal:8000/api/follow"
-posts_URL = "http://host.docker.internal:8000/api/post/user_get"
+follows_URL = "http://host.docker.internal:8000/api/v1/follow"
+posts_URL = "http://host.docker.internal:8000/api/v1/post/user_get"
 
 @app.route("/read_posts", methods=['GET'])
 def read_posts():

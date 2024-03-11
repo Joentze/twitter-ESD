@@ -107,8 +107,8 @@ services:
   email_service:
     container_name: email_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./email/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/email/Dockerfile
     ports:
       - 5107:5107
     env_file:
@@ -118,24 +118,11 @@ services:
     depends_on:
       - mysql
 
-  images_service:
-    container_name: images_service
-    build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./images/Dockerfile
-    ports:
-      - 5110:5110
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
   assets_service:
     container_name: assets_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./asset/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/asset/Dockerfile
     ports:
       - 5105:5105
     env_file:
@@ -144,20 +131,6 @@ services:
       - mynet
     depends_on:
       - minio
-
-  post_images_service:
-    container_name: post_images_service
-    build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./post_images/Dockerfile
-    ports:
-      - 5111:5111
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
 
   read_posts_service:
     container_name: read_posts_service
