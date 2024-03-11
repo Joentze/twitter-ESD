@@ -11,7 +11,7 @@ CORS(app)
 
 USER_URL = "http://localhost:5100"
 COMMENTS_URL = "http://localhost:5102"
-
+CONTENT_CHECK_URL = "http://localhost:5108"
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
     RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
@@ -52,10 +52,10 @@ def upload_post(post_id: str) -> None:
 
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
-    # =====================================
-    # ====ADD EMMANUEL'S ANALYSER HERE=====
-    # =====================================
-    return False
+    content_check_route = f"{CONTENT_CHECK_URL}/post/validate/"
+    response = get(content_check_route, json={"inputs": [text]}, timeout=5000)
+    is_sfw = response.json()["sfw"]
+    return is_sfw
 
 
 def send_content_warning(email: str, username: str) -> None:
@@ -80,7 +80,7 @@ def get_user_email_name(uid: str) -> tuple:
 def create_comment(post_id: str, content: str, commenter_uid: str) -> object:
     """creates comment request"""
     post_route = f"{COMMENTS_URL}/comment/{post_id}"
-    response = post(post_route, data={
+    response = post(post_route, json={
                     "content": content, "commenter_uid": commenter_uid}, timeout=5000)
     return response.json()
 
