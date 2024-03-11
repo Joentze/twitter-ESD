@@ -991,13 +991,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/follow/user1_uid",
+									"raw": "localhost:8000/api/v1/follow/user1_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"follow",
 										"user1_uid"
 									]
@@ -1024,13 +1025,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/follow/user4_uid",
+									"raw": "localhost:8000/api/v1/follow/user4_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"follow",
 										"user4_uid"
 									]
@@ -1057,13 +1059,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/follow/all",
+									"raw": "localhost:8000/api/v1/follow/all",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"follow",
 										"all"
 									]
@@ -1099,13 +1102,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/follow/user2_uid",
+									"raw": "localhost:8000/api/v1/follow/user2_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"follow",
 										"user2_uid"
 									]
@@ -1146,13 +1150,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/user/user5_uid",
+									"raw": "localhost:8000/api/v1/user/user5_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"user",
 										"user5_uid"
 									]
@@ -1188,13 +1193,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/user/user5_uid",
+									"raw": "localhost:8000/api/v1/user/user5_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"user",
 										"user5_uid"
 									]
@@ -1221,13 +1227,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/user/user5_uid",
+									"raw": "localhost:8000/api/v1/user/user5_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"user",
 										"user5_uid"
 									]
@@ -1254,13 +1261,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/user/all",
+									"raw": "localhost:8000/api/v1/user/all",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"user",
 										"all"
 									]
@@ -1296,13 +1304,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/user/user5_uid",
+									"raw": "localhost:8000/api/v1/user/user5_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"user",
 										"user5_uid"
 									]
@@ -1343,13 +1352,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/comment/post1_id",
+									"raw": "localhost:8000/api/v1/comment/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"comment",
 										"post1_id"
 									]
@@ -1376,13 +1386,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/comment/user_get/user4_uid",
+									"raw": "localhost:8000/api/v1/comment/user_get/user4_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"comment",
 										"user_get",
 										"user4_uid"
@@ -1410,13 +1421,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/comment/post3_id",
+									"raw": "localhost:8000/api/v1/comment/post3_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"comment",
 										"post3_id"
 									]
@@ -1443,13 +1455,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/comment/all",
+									"raw": "localhost:8000/api/v1/comment/all",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"comment",
 										"all"
 									]
@@ -1485,13 +1498,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/comment/post1_id",
+									"raw": "localhost:8000/api/v1/comment/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"comment",
 										"post1_id"
 									]
@@ -1527,13 +1541,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/post/post3_id",
+									"raw": "localhost:8000/api/v1/post/post3_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"post3_id"
 									]
@@ -1574,13 +1589,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/like/post1_id",
+									"raw": "localhost:8000/api/v1/like/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"like",
 										"post1_id"
 									]
@@ -1607,13 +1623,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/like/user_get/user4_uid",
+									"raw": "localhost:8000/api/v1/like/user_get/user4_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"like",
 										"user_get",
 										"user4_uid"
@@ -1641,13 +1658,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/like/post3_id",
+									"raw": "localhost:8000/api/v1/like/post3_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"like",
 										"post3_id"
 									]
@@ -1674,13 +1692,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/like/all",
+									"raw": "localhost:8000/api/v1/like/all",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"like",
 										"all"
 									]
@@ -1716,13 +1735,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/like/post1_id",
+									"raw": "localhost:8000/api/v1/like/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"like",
 										"post1_id"
 									]
@@ -1760,13 +1780,14 @@
 									}
 								],
 								"url": {
-									"raw": "localhost:8000/api/read_posts",
+									"raw": "localhost:8000/api/v1/read_posts",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"read_posts"
 									]
 								}
@@ -1806,13 +1827,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/post/user4_uid",
+									"raw": "localhost:8000/api/v1/post/user4_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"user4_uid"
 									]
@@ -1839,13 +1861,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/post/user_get/user4_uid",
+									"raw": "localhost:8000/api/v1/post/user_get/user4_uid",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"user_get",
 										"user4_uid"
@@ -1873,13 +1896,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/post/post1_id",
+									"raw": "localhost:8000/api/v1/post/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"post1_id"
 									]
@@ -1906,13 +1930,14 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "localhost:8000/api/post/all",
+									"raw": "localhost:8000/api/v1/post/all",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"all"
 									]
@@ -1948,13 +1973,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/post/post1_id",
+									"raw": "localhost:8000/api/v1/post/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"post1_id"
 									]
@@ -1990,13 +2016,14 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8000/api/post/post1_id",
+									"raw": "localhost:8000/api/v1/post/post1_id",
 									"host": [
 										"localhost"
 									],
 									"port": "8000",
 									"path": [
 										"api",
+										"v1",
 										"post",
 										"post1_id"
 									]

@@ -1,5 +1,6 @@
 # APIs  
 Directory of microservices via Kong  
+All routes are via `localhost:8000/api/v1`
   
 ## Atomic Microservices  
 **[Users](atomic/users/users.md)**    
@@ -38,7 +39,7 @@ Get user following: `GET /follow/uid`
 Create new user following: `POST /follow/uid`  
 Delete user following: `DELETE /follow/uid`  
 
-**[Assets](atomic/assets/assets.md)**  
+**[Assets](atomic/asset/assets.md)**  
 Upload new image: `POST /asset/upload`  
 
 ## Complex Microservices

@@ -121,8 +121,8 @@ services:
   email_service:
     container_name: email_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./email/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/email/Dockerfile
     ports:
       - 5107:5107
     env_file:
@@ -148,8 +148,8 @@ services:
   assets_service:
     container_name: assets_service
     build:
-      context: ./backend/apis/atomic/
-      dockerfile: ./asset/Dockerfile
+      context: ./backend/apis/
+      dockerfile: ./atomic/asset/Dockerfile
     ports:
       - 5105:5105
     env_file:
