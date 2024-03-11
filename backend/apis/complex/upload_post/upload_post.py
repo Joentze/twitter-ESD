@@ -6,12 +6,16 @@ from requests import get, post
 from typing import TypedDict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
+
 
 app = Flask(__name__)
 CORS(app)
 
 USER_URL = "http://localhost:5100"
 POST_URL = "http://localhost:5101"
+CONTENT_CHECK_URL = "http://localhost:5108"
+
 
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
@@ -37,10 +41,13 @@ def upload_post(uid: str) -> None:
         data: UploadBody = request.get_json()
         content, location, images = data["post_content"], data["post_location"], data["post_images"]
         is_sfw = check_content(content)
+        print("result check:", is_sfw)
         try:
             if is_sfw:
+                print("creating post...")
                 create_post(uid, content, location, images)
             else:
+                print("not creating post...")
                 email, username = get_user_email_name(uid)
                 print(email, username)
                 send_content_warning(email, username)
@@ -55,10 +62,10 @@ def upload_post(uid: str) -> None:
 
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
-    # =====================================
-    # ====ADD EMMANUEL'S ANALYSER HERE=====
-    # =====================================
-    return False
+    content_check_route = f"{CONTENT_CHECK_URL}/post/validate/"
+    response = get(content_check_route, json={"inputs": [text]}, timeout=5000)
+    is_sfw = response.json()["sfw"]
+    return is_sfw
 
 
 def send_content_warning(email: str, username: str) -> None:
@@ -75,7 +82,9 @@ def send_content_warning(email: str, username: str) -> None:
 def get_user_email_name(uid: str) -> tuple:
     """gets user information from uid"""
     user_info_route = f"{USER_URL}/user/{uid}"
+    print(user_info_route)
     response = get(user_info_route, timeout=5000)
+    print(response)
     data = response.json()["data"]
     return data["user email"], data["username"]
 
@@ -83,7 +92,7 @@ def get_user_email_name(uid: str) -> tuple:
 def create_post(uid: str, post_content: str, post_location: str, post_images: List[str]) -> object:
     """creates post request"""
     post_route = f"{POST_URL}/post/{uid}"
-    response = post(post_route, data={"post_content": post_content,
+    response = post(post_route, json={"post_content": post_content,
                                       "post_location": post_location, "post_images": post_images}, timeout=5000)
     return response.json()
 
