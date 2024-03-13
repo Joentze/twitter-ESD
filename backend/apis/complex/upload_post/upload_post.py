@@ -11,9 +11,9 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-USER_URL = "http://localhost:5100"
-POST_URL = "http://localhost:5101"
-CONTENT_CHECK_URL = "http://localhost:5108"
+USER_URL = os.environ["USER_URL"]
+POST_URL = os.environ["POST_URL"]
+CONTENT_CHECK_URL = os.environ["CONTENT_CHECK_URL"]
 
 
 try:

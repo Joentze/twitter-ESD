@@ -11,7 +11,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 import requests
-from backend.apis.complex.read_posts.invokes import invoke_http
+from invokes import invoke_http
 
 
 app = Flask(__name__)
