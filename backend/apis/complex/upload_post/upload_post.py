@@ -23,7 +23,7 @@ except KeyError:
     RABBITMQ_HOST = "localhost"
     RABBITMQ_PORT = 5672
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host="localhost", port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
+    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
 
 
 class UploadBody(TypedDict):

@@ -8,5 +8,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./complex/read_posts/*.py ./
 
-COPY ./complex/read_posts/read_posts.py ./complex/invokes.py ./
+COPY ./complex/read_posts/read_posts.py ./complex/read_posts/invokes.py ./
 CMD [ "python", "./read_posts.py" ]
