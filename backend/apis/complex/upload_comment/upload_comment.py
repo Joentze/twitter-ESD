@@ -9,9 +9,9 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-USER_URL = "http://localhost:5100"
-COMMENTS_URL = "http://localhost:5102"
-CONTENT_CHECK_URL = "http://localhost:5108"
+USER_URL = os.environ["USER_URL"]
+COMMENTS_URL = os.environ["COMMENTS_URL"]
+CONTENT_CHECK_URL = os.environ["CONTENT_CHECK_URL"]
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
     RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
@@ -19,7 +19,7 @@ except KeyError:
     RABBITMQ_HOST = "localhost"
     RABBITMQ_PORT = 5672
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host="localhost", port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
+    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
 
 
 class CommentBody(TypedDict):

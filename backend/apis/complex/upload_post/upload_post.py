@@ -6,15 +6,14 @@ from requests import get, post
 from typing import TypedDict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import requests
 
 
 app = Flask(__name__)
 CORS(app)
 
-USER_URL = "http://localhost:5100"
-POST_URL = "http://localhost:5101"
-CONTENT_CHECK_URL = "http://localhost:5108"
+USER_URL = os.environ["USER_URL"]
+POST_URL = os.environ["POST_URL"]
+CONTENT_CHECK_URL = os.environ["CONTENT_CHECK_URL"]
 
 
 try:
@@ -24,7 +23,7 @@ except KeyError:
     RABBITMQ_HOST = "localhost"
     RABBITMQ_PORT = 5672
 connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host="localhost", port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
+    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
 
 
 class UploadBody(TypedDict):
