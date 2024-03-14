@@ -2,6 +2,7 @@
 """
 
 import json
+import os
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
 from middleware.auth_middleware import validate_access_token
@@ -18,7 +19,7 @@ if ENV_FILE:
 app = Flask(__name__)
 app.secret_key = env.get("APP_SECRET_KEY")
 
-
+FRONTEND_URL = os.environ["FRONTEND_URL"]
 oauth = OAuth(app)
 
 oauth.register(
@@ -38,7 +39,7 @@ def home():
     return render_template(
         "home.html",
         session=session.get("user"),
-        redirect_url="https://google.com",
+        redirect_url=FRONTEND_URL,
         pretty=json.dumps(session.get("user"), indent=4),
     )
 
