@@ -11,6 +11,7 @@
     <script>
         let storedString = JSON.stringify('{{ session.userinfo }}')
         localStorage.setItem("twitter_auth", storedString)
+        window.location.href = '{{ redirect_url }}'
     </script>
     <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
     <div>

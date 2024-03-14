@@ -38,6 +38,7 @@ def home():
     return render_template(
         "home.html",
         session=session.get("user"),
+        redirect_url="https://google.com",
         pretty=json.dumps(session.get("user"), indent=4),
     )
 
