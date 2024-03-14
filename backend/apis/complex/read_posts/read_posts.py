@@ -4,7 +4,8 @@ from datetime import datetime
 import os
 import sys
 
-import os, sys
+import os
+import sys
 
 import logging
 from logging.handlers import RotatingFileHandler
@@ -13,19 +14,20 @@ import requests
 from invokes import invoke_http
 
 
-
 app = Flask(__name__)
 CORS(app)
 
 # Configure logging
 log_formatter = logging.Formatter('%(asctime)s [%(levelname)s] - %(message)s')
-log_handler = RotatingFileHandler('app.log', maxBytes=1024 * 1024, backupCount=5)
+log_handler = RotatingFileHandler(
+    'app.log', maxBytes=1024 * 1024, backupCount=5)
 log_handler.setFormatter(log_formatter)
 app.logger.addHandler(log_handler)
 app.logger.setLevel(logging.INFO)
 
-follows_URL = "http://host.docker.internal:8000/api/v1/follow"
-posts_URL = "http://host.docker.internal:8000/api/v1/post/user_get"
+FOLLOW_URL = "http://host.docker.internal:8000/api/v1/follow"
+POST_URL = "http://host.docker.internal:8000/api/v1/post/user_get"
+
 
 @app.route("/read_posts", methods=['GET'])
 def read_posts():
@@ -42,19 +44,19 @@ def read_posts():
                 "code": 400,
                 "message": "User ID not provided in the request headers"
             }), 400
-        
+
         print('printing user uid')
         print(user_uid)
-        new_followsURL = follows_URL + '/' + user_uid
+        new_followsURL = FOLLOW_URL + '/' + user_uid
         follows_response = invoke_http(new_followsURL, method='GET')
-        app.logger.info(follows_URL + '/' + user_uid)
+        app.logger.info(FOLLOW_URL + '/' + user_uid)
 
         print('printing follows response')
         print(follows_response)
         print(type(follows_response))
         # follows_data = follows_response.get("data", [])
         # print('follows_response:', follows_data)
-        
+
         # app.logger.info(follows_response)
 
         # Check if the response is successful
@@ -81,11 +83,12 @@ def read_posts():
             print(follower_ids)
             for follower_id in follower_ids:
                 print(follower_id)
-                new_PostsURL = posts_URL + "/" + follower_id
-                follower_posts_response = invoke_http(new_PostsURL, method='GET')
+                new_PostsURL = POST_URL + "/" + follower_id
+                follower_posts_response = invoke_http(
+                    new_PostsURL, method='GET')
                 # app.logger.info(follower_posts_response)
                 if "code" not in follower_posts_response or follower_posts_response["code"] != 200:
-                # Error handling if the follows microservice call fails
+                    # Error handling if the follows microservice call fails
                     continue
                 follower_posts += follower_posts_response.get("data", [])
 
@@ -96,7 +99,8 @@ def read_posts():
             }), follower_posts_response.get("code", 500)
 
         # Sort user_follower_posts by date
-        follower_posts.sort(key=lambda x: x.get("date posted", ""), reverse=True)
+        follower_posts.sort(key=lambda x: x.get(
+            "date posted", ""), reverse=True)
 
         print(follower_posts)
         # Return posts for followers of each user
@@ -116,7 +120,3 @@ def read_posts():
 if __name__ == "__main__":
     print("This is flask " + os.path.basename(__file__) + " for reading posts...")
     app.run(host="0.0.0.0", port=5120, debug=True)
-
-
-
-

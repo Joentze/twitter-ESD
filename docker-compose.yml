@@ -131,6 +131,7 @@ services:
       - mynet
     depends_on:
       - mysql
+    restart: always
 
   # images_service:
   #   container_name: images_service
@@ -159,20 +160,6 @@ services:
     depends_on:
       - minio
 
-  # post_images_service:
-  #   container_name: post_images_service
-  #   build:
-  #     context: ./backend/apis/atomic/
-  #     dockerfile: ./post_images/Dockerfile
-  #   ports:
-  #     - 5111:5111
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - mynet
-  #   depends_on:
-  #     - mysql
-
   read_posts_service:
     container_name: read_posts_service
     build:
@@ -188,6 +175,39 @@ services:
       - follows_service
       - posts_service
 
+  upload_post_service:
+    container_name: upload_post_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./complex/upload_post/Dockerfile
+    ports:
+      - 5122:5122
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - posts_service
+      - users_service
+      - content_check_service
+    restart: always
+
+  upload_comment_service:
+    container_name: upload_comment_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./complex/upload_comment/Dockerfile
+    ports:
+      - 5123:5123
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - comments_service
+      - users_service
+      - content_check_service
+    restart: always
   minio:
     image: quay.io/minio/minio
     ports:
