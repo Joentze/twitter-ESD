@@ -187,6 +187,17 @@ services:
         - DELETE
         strip_path: true
 
+  - name: content_check
+    url: http://content_check_service:5108/post/validate/
+    routes:
+      - name: content_check
+        paths:
+          - /api/v1/post/validate
+        methods:
+        - GET
+        - POST
+        strip_path: true
+
   - name: read_posts_service
     url: http://read_posts_service:5120/read_posts/
     routes:
@@ -195,6 +206,26 @@ services:
           - /api/v1/read_posts
         methods:
         - GET
+        strip_path: true
+
+  - name: upload_post_service
+    url: http://upload_post_service:5122/upload/
+    routes:
+      - name: upload_posts
+        paths:
+          - /api/v1/post/upload
+        methods:
+        - POST
+        strip_path: true
+
+  - name: upload_comment_service
+    url: http://upload_comment_service:5123/upload/
+    routes:
+      - name: upload_comments
+        paths:
+          - /api/v1/comment/upload
+        methods:
+        - POST
         strip_path: true
 
   # - name: auths_service

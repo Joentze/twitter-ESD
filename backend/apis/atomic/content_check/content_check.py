@@ -27,12 +27,12 @@ class ScoreType(TypedDict):
 
 
 # Configure logging
-API_URL = "https://api-inference.huggingface.co/models/michellejieli/NSFW_text_classifier"
+API_URL = os.environ["HUGGING_FACE_URL"]
 HUGGING_FACE_TOKEN = os.environ["HUGGING_FACE_TOKEN"]
 headers = {"Authorization": f"Bearer {HUGGING_FACE_TOKEN}"}
 
 
-@app.route('/post/validate/')
+@app.route('/post/validate')
 def content_check():
     """api for text content checking"""
     req_body = request.json
@@ -43,6 +43,7 @@ def content_check():
     for evaluations in data:
         label, score = evaluations["label"], evaluations["score"]
         scores[label] = score
+    app.logger.info(scores)
     try:
         if scores["SFW"] < scores["NSFW"]:
             return jsonify(
