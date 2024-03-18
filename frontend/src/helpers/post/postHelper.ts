@@ -8,6 +8,20 @@ interface PostBodyType {
   post_images: string[];
 }
 
+interface ReadPostBodyType {
+  "date posted": string;
+  "post content": string;
+  "post id": string;
+  "post images": string[];
+  "post location": string;
+  "poster id": string;
+}
+
+interface ReadAllPostResponseType {
+  code: number;
+  data: ReadPostBodyType[];
+}
+
 export const uploadPost = async (
   uid: string,
   postBody: PostBodyType
@@ -20,5 +34,18 @@ export const uploadPost = async (
     return response.data as ResponseMessage;
   } catch (e) {
     throw new Error("There was an error with uploading post");
+  }
+};
+
+export const readAllPosts = async (
+  uid: string
+): Promise<ReadAllPostResponseType> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/read_posts`, {
+      headers: { uid },
+    });
+    return response.data as ReadAllPostResponseType;
+  } catch (e) {
+    throw new Error("There was an error with reading your posts");
   }
 };
