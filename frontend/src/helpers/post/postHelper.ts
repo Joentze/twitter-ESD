@@ -1,17 +1,11 @@
 import axios from "axios";
-import { url } from "inspector";
-
+import { ResponseMessage } from "../helperTypes";
 const API_ROUTE = "http://localhost:8000/api/v1";
 
 interface PostBodyType {
   post_content: string;
   post_location: string;
   post_images: string[];
-}
-
-interface ResponseMessage {
-  code: number;
-  message: string;
 }
 
 export const uploadPost = async (
@@ -28,4 +22,3 @@ export const uploadPost = async (
     throw new Error("There was an error with uploading post");
   }
 };
-
