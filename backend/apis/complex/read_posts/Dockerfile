@@ -1,12 +1,10 @@
-FROM python:3-slim
+FROM node:14
 
+WORKDIR /usr/src/read_posts
+COPY ./complex/read_posts/package*.json ./
+RUN npm install
 
-WORKDIR /usr/src/app
+COPY ./complex/read_posts/*.js .
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+CMD [ "node", "read_posts.js" ]
 
-COPY ./complex/read_posts/*.py ./
-
-COPY ./complex/read_posts/read_posts.py ./complex/read_posts/invokes.py ./
-CMD [ "python", "./read_posts.py" ]

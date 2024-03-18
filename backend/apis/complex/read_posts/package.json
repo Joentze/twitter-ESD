@@ -1,0 +1,14 @@
+{
+  "name": "read-posts-api",
+  "version": "1.0.0",
+  "description": "A Node.js API for reading posts",
+  "main": "read_posts.js",
+  "scripts": {
+    "start": "node read_posts.js"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.3"
+  }
+}
+
