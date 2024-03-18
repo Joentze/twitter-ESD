@@ -9,9 +9,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-USER_URL = os.environ["USER_URL"]
-COMMENTS_URL = os.environ["COMMENTS_URL"]
-CONTENT_CHECK_URL = os.environ["CONTENT_CHECK_URL"]
+API_URL = os.environ["API_URL"]
 try:
     RABBITMQ_HOST = os.environ["RABBITMQ_HOST"]
     RABBITMQ_PORT = int(os.environ["RABBITMQ_PORT"])
@@ -52,7 +50,7 @@ def upload_post(post_id: str) -> None:
 
 def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
-    content_check_route = f"{CONTENT_CHECK_URL}/post/validate/"
+    content_check_route = f"{API_URL}/post/validate"
     response = get(content_check_route, json={"inputs": [text]}, timeout=5000)
     is_sfw = response.json()["sfw"]
     return is_sfw
@@ -71,7 +69,7 @@ def send_content_warning(email: str, username: str) -> None:
 
 def get_user_email_name(uid: str) -> tuple:
     """gets user information from uid"""
-    user_info_route = f"{USER_URL}/user/{uid}"
+    user_info_route = f"{API_URL}/user/{uid}"
     response = get(user_info_route, timeout=5000)
     data = response.json()["data"]
     return data["user email"], data["username"]
@@ -79,7 +77,7 @@ def get_user_email_name(uid: str) -> tuple:
 
 def create_comment(post_id: str, content: str, commenter_uid: str) -> object:
     """creates comment request"""
-    post_route = f"{COMMENTS_URL}/comment/{post_id}"
+    post_route = f"{API_URL}/comment/{post_id}"
     response = post(post_route, json={
                     "content": content, "commenter_uid": commenter_uid}, timeout=5000)
     return response.json()
