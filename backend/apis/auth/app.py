@@ -4,6 +4,7 @@
 import json
 import os
 from os import environ as env
+from requests import post
 from urllib.parse import quote_plus, urlencode
 from middleware.auth_middleware import validate_access_token
 from authlib.integrations.flask_client import OAuth
@@ -11,6 +12,9 @@ from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
 from middleware.auth_middleware import validate_access_token
 
+
+API_URL = f"{os.environ['API_URL']}"
+USERS_URL = f"{API_URL}/user"
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -38,16 +42,20 @@ oauth.register(
 def home():
     return render_template(
         "home.html",
+        redirect=FRONTEND_URL,
         session=session.get("user"),
-        redirect_url=FRONTEND_URL,
         pretty=json.dumps(session.get("user"), indent=4),
     )
 
 
 @app.route("/callback", methods=["GET", "POST"])
 def callback():
+    """sets token and calls user table"""
     token = oauth.auth0.authorize_access_token()
     session["user"] = token
+    user_info = token["userinfo"]
+    uid, username, email = user_info["aud"], user_info["nickname"], user_info["email"]
+    create_user(uid, username, email)
     return redirect("/")
 
 
@@ -81,6 +89,13 @@ def logout():
 def secret_fn(decoded_token):
     """tests protected route"""
     return decoded_token
+
+
+def create_user(uid: str, username: str, email: str) -> None:
+    """creates user"""
+    create_user_route = f"{USERS_URL}/{uid}"
+    post(create_user_route, json={
+        "username": username, "email": email}, timeout=5000)
 
 
 if __name__ == "__main__":
