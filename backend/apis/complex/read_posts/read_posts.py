@@ -30,6 +30,7 @@ API_URL = f"{os.environ['API_URL']}"
 FOLLOW_URL = f"{API_URL}/follow"
 POST_URL = f"{API_URL}/post/user_get"
 LIKE_URL = f"{API_URL}/like"
+USER_URL = f"{API_URL}/user"
 
 
 @app.route("/read_posts", methods=['GET'])
@@ -108,8 +109,12 @@ def read_posts():
         print(follower_posts)
         for idx, follower_post in enumerate(follower_posts):
             post_id = follower_post["post id"]
+            poster_id = follower_post["poster id"]
+            user_detail = get_user_detail(poster_id)
             likes = get_likes(post_id)
             follower_posts[idx]["likes"] = likes
+            follower_posts[idx]["user detail"] = user_detail
+
         # Return posts for followers of each user
         return jsonify({
             "code": 200,
@@ -127,6 +132,14 @@ def get_likes(post_id: str) -> List[str]:
     """gets likes for post"""
     post_likes_route = F"{LIKE_URL}/{post_id}"
     response = get(post_likes_route, timeout=5000)
+    print(response)
+    return response.json()["data"]
+
+
+def get_user_detail(user_id: str) -> List[str]:
+    """gets likes for post"""
+    user_detail_route = F"{USER_URL}/{user_id}"
+    response = get(user_detail_route, timeout=5000)
     print(response)
     return response.json()["data"]
 

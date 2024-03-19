@@ -1,5 +1,4 @@
 import React from "react";
-import { UserDetailType } from "../../helpers/user/userHelper";
 interface IPostCard {
   postId: string;
   posterId: string;
@@ -8,7 +7,6 @@ interface IPostCard {
   postImages: string[];
   postLocation: string;
   likes: string[];
-  userDetail: UserDetailType;
 }
 const PostCard: React.FC<IPostCard> = ({
   postContent,
@@ -21,7 +19,7 @@ const PostCard: React.FC<IPostCard> = ({
 }) => {
   return (
     <div className="w-full h-fit flex flex-col">
-      <div className="w-full h-16 bg-gray flex flex-row"></div>
+      <div className="w-full h-16 bg-gray flex flex-row">{postContent}</div>
     </div>
   );
 };
