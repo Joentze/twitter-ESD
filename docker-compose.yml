@@ -76,20 +76,6 @@ services:
     depends_on:
       - mysql
 
-  content_check_service:
-    container_name: content_check_service
-    build:
-      context: ./backend/apis/
-      dockerfile: ./atomic/content_check/Dockerfile
-    ports:
-      - 5108:5108
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
-
   likes_service:
     container_name: likes_service
     build:
@@ -118,34 +104,6 @@ services:
     depends_on:
       - mysql
 
-  email_service:
-    container_name: email_service
-    build:
-      context: ./backend/apis/
-      dockerfile: ./atomic/email/Dockerfile
-    ports:
-      - 5107:5107
-    env_file:
-      - .env
-    networks:
-      - mynet
-    depends_on:
-      - mysql
-    restart: always
-
-  # images_service:
-  #   container_name: images_service
-  #   build:
-  #     context: ./backend/apis/atomic/
-  #     dockerfile: ./images/Dockerfile
-  #   ports:
-  #     - 5110:5110
-  #   env_file:
-  #     - .env
-  #   networks:
-  #     - mynet
-  #   depends_on:
-  #     - mysql
   assets_service:
     container_name: assets_service
     build:
@@ -159,6 +117,20 @@ services:
       - mynet
     depends_on:
       - minio
+
+  content_check_service:
+    container_name: content_check_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/content_check/Dockerfile
+    ports:
+      - 5108:5108
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
 
   read_posts_service:
     container_name: read_posts_service
@@ -208,6 +180,20 @@ services:
       - users_service
       - content_check_service
     restart: always
+
+  email_service:
+    container_name: email_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/email/Dockerfile
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - mysql
+    restart: always
+
   minio:
     image: quay.io/minio/minio
     ports:
