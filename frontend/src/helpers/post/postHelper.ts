@@ -9,6 +9,7 @@ interface PostBodyType {
 }
 
 export interface ReadPostBodyType {
+  likes: string[];
   "date posted": string;
   "post content": string;
   "post id": string;
