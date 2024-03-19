@@ -16,10 +16,11 @@ const PostDisplay = () => {
     getPosts();
   }, []);
   return (
-    <>
+    <div className="overflow-y-scroll">
       {posts.map((post) => {
         return (
           <PostCard
+            userDetail={post["user detail"]}
             postId={post["post id"]}
             postContent={post["post content"]}
             postImages={post["likes"]}
@@ -30,7 +31,7 @@ const PostDisplay = () => {
           />
         );
       })}
-    </>
+    </div>
   );
 };
 
