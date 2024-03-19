@@ -8,7 +8,7 @@ interface PostBodyType {
   post_images: string[];
 }
 
-interface ReadPostBodyType {
+export interface ReadPostBodyType {
   "date posted": string;
   "post content": string;
   "post id": string;
