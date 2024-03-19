@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ResponseMessage } from "../helperTypes";
+import { UserDetailType } from "../user/userHelper";
 const API_ROUTE = "http://localhost:8000/api/v1";
 
 interface PostBodyType {
@@ -10,6 +11,7 @@ interface PostBodyType {
 
 export interface ReadPostBodyType {
   likes: string[];
+  "user detail": UserDetailType;
   "date posted": string;
   "post content": string;
   "post id": string;
