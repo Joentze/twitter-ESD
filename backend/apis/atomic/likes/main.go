@@ -19,6 +19,12 @@ type Like struct {
 	DateLiked time.Time `json:"date liked" db:"date_liked"`
 }
 
+type FormattedLike struct {
+	UID       string    `json:"user id"`
+	PostID    string    `json:"post id"`
+	DateLiked string    `json:"date liked"`
+}
+
 func initDB() *sql.DB {
 	dbHost := os.Getenv("MYSQL_HOST")
 	dbPort := os.Getenv("MYSQL_PORT")
@@ -63,7 +69,7 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func getAllLikes(c *gin.Context) {
-	var likes []Like
+	var likes []FormattedLike
 	rows, err := db.Query("SELECT * FROM LIKES")
 	if err != nil {
         c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
@@ -81,14 +87,20 @@ func getAllLikes(c *gin.Context) {
             continue
         }
 
-        // Parse the dateLikedStr into a time.Time object
         l.DateLiked, err = time.Parse("2006-01-02 15:04:05", dateLikedStr)
         if err != nil {
             log.Println("Error parsing date:", err)
             continue
         }
 
-        likes = append(likes, l)
+        likeFormatted := l.DateLiked.Format("Mon, 02 Jan 2006 15:04:05 MST")
+
+        var fl FormattedLike
+        fl.UID = l.UID
+        fl.PostID = l.PostID
+        fl.DateLiked = likeFormatted
+
+        likes = append(likes, fl)
     }
 
     if len(likes) == 0 {
@@ -221,11 +233,16 @@ func createLike(c *gin.Context) {
         log.Println("Error parsing date:", err)
         return
     }
+    var fl FormattedLike
+    likeFormatted := like.DateLiked.Format("Mon, 02 Jan 2006 15:04:05 MST")
+    fl.UID = like.UID
+    fl.PostID = like.PostID
+    fl.DateLiked = likeFormatted
 
 	c.JSON(http.StatusCreated, gin.H{
         "code": 201,
         "data": gin.H{
-            "like": like,
+            "like": fl,
         },
         "message": "Like created successfully",
     })
