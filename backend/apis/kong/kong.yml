@@ -14,6 +14,7 @@ services:
     routes:
       - name: users_get_all
         methods:
+        - OPTIONS
         - GET
         paths:
         - /api/v1/user/all
@@ -25,6 +26,7 @@ services:
         paths:
           - /api/v1/user
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -38,6 +40,7 @@ services:
         paths:
           - /api/v1/post/user_get
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -51,6 +54,7 @@ services:
         paths:
           - /api/v1/post/all
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -64,6 +68,7 @@ services:
         paths:
           - /api/v1/post
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -77,6 +82,7 @@ services:
         paths:
           - /api/v1/comment/all
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -90,6 +96,7 @@ services:
         paths:
           - /api/v1/comment/user_get
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -103,6 +110,7 @@ services:
         paths:
           - /api/v1/comment
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -116,6 +124,7 @@ services:
         paths:
           - /api/v1/like/all
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -129,6 +138,7 @@ services:
         paths:
           - /api/v1/like/user_get
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -142,6 +152,7 @@ services:
         paths:
           - /api/v1/like
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -155,6 +166,7 @@ services:
         paths:
           - /api/v1/follow/all
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -168,6 +180,7 @@ services:
         paths:
           - /api/v1/follow
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -181,6 +194,7 @@ services:
         paths:
           - /api/v1/asset/upload
         methods:
+        - OPTIONS
         - GET
         - POST
         - PUT
@@ -194,6 +208,7 @@ services:
         paths:
           - /api/v1/post/validate
         methods:
+        - OPTIONS
         - GET
         - POST
         strip_path: true
@@ -205,6 +220,7 @@ services:
         paths:
           - /api/v1/read_posts
         methods:
+        - OPTIONS
         - GET
         strip_path: true
 
@@ -215,6 +231,7 @@ services:
         paths:
           - /api/v1/post/upload
         methods:
+        - OPTIONS
         - POST
         strip_path: true
 
@@ -225,6 +242,7 @@ services:
         paths:
           - /api/v1/comment/upload
         methods:
+        - OPTIONS
         - POST
         strip_path: true
 
@@ -253,6 +271,13 @@ services:
   #       - PUT
   #       - DELETE
   #       strip_path: true
+
+# CORS plugin
+plugins:
+  - name: cors
+    config:
+      origins:
+        - '*'
 
 # # Initialising cache plugin for selected services
 # plugins:
