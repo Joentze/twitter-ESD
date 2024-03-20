@@ -5,12 +5,14 @@ import {
   IoCloseOutline,
 } from "react-icons/io5";
 import { uploadFile } from "../../helpers/asset/assetHelper";
+import { uploadPost } from "../../helpers/post/postHelper";
 const PostUploader = () => {
   const [locationOpen, setLocationOpen] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const [fileList, setFileList] = useState<string[]>([]);
   const [showCancel, setShowCancel] = useState<boolean>(false);
   const [postContent, setPostContent] = useState<string>("");
-  const [postLocation, setPostLocation] = useState<string>("");
+  const [postLocation, setPostLocation] = useState<string>("Singapore");
   const onFileUpload = async (event: ChangeEvent) => {
     const target = event.target as HTMLInputElement;
     if (target.files) {
@@ -33,12 +35,37 @@ const PostUploader = () => {
     setFileList([]);
     setShowCancel(false);
   };
-  const makePost = async () => {};
+  const makePost = async () => {
+    try {
+      if (postContent !== "") setUploading(true);
+      console.log({
+        post_content: postContent,
+        post_location: postLocation,
+        post_images: fileList,
+      });
+      await uploadPost("user1_uid", {
+        post_content: postContent,
+        post_location: postLocation,
+        post_images: fileList,
+      });
+
+      setPostContent("");
+      setPostLocation("Singapore");
+      (
+        document.getElementById("post-file-uploader") as HTMLInputElement
+      ).value = "";
+      setFileList([]);
+      setUploading(false);
+    } catch (e) {
+      throw new Error((e as Error).message);
+    }
+  };
   return (
     <div className="w-full h-fit p-4 flex flex-col border border-b-2 ">
       <textarea
         className="textarea textarea-bordered"
         placeholder="Make a Post!"
+        value={postContent}
         defaultValue={postContent}
         onChange={(event) => setPostContent(event.target.value)}
       ></textarea>
@@ -46,6 +73,7 @@ const PostUploader = () => {
         className={`${
           locationOpen ? "block" : "hidden"
         } w-full input input-sm input-bordered mt-4`}
+        value={postLocation}
         defaultValue={postLocation}
         onChange={(event) => setPostLocation(event.target.value)}
         placeholder="Your Location"
@@ -75,7 +103,17 @@ const PostUploader = () => {
           <IoCloseOutline className="ml-1 w-6 h-6 text-primary" />
         </button>
         <div className="grow"></div>
-        <button className="btn btn-primary btn-sm">Post</button>
+        {uploading ? (
+          <span className="loading loading-spinner loading-md text-primary"></span>
+        ) : (
+          <button
+            disabled={postContent.length === 0}
+            className="btn btn-primary btn-sm"
+            onClick={async () => await makePost()}
+          >
+            Post
+          </button>
+        )}
       </div>
     </div>
   );

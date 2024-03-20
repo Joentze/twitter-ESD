@@ -60,6 +60,7 @@ def check_content(text: str) -> bool:
     """sends api request to NLP analyser"""
     content_check_route = f"{API_URL}/post/validate"
     response = get(content_check_route, json={"inputs": [text]}, timeout=5000)
+    print(response.json())
     is_sfw = response.json()["sfw"]
     return is_sfw
 
