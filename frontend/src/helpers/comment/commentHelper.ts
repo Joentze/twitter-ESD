@@ -8,6 +8,14 @@ interface CommentBody {
   commenter_uid: string;
 }
 
+export interface CommentType {
+  "comment id": string;
+  "commenter uid": string;
+  content: string;
+  "date commented": string;
+  "post id": string;
+}
+
 export const uploadComment = async (
   postId: string,
   commentBody: CommentBody
@@ -20,5 +28,16 @@ export const uploadComment = async (
     return response.data as ResponseMessage;
   } catch (e) {
     throw new Error("There was an error with uploading comment");
+  }
+};
+
+export const getPostComments = async (
+  postId: string
+): Promise<CommentType[]> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/comment/${postId}`);
+    return response.data["data"] as CommentType[];
+  } catch (e) {
+    throw new Error("There was an error with getting comments");
   }
 };

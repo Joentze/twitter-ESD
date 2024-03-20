@@ -23,7 +23,7 @@ const PostDisplay = () => {
             userDetail={post["user detail"]}
             postId={post["post id"]}
             postContent={post["post content"]}
-            postImages={post["likes"]}
+            postImages={post["post images"]}
             postLocation={post["post location"]}
             posterId={post["poster id"]}
             datePosted={post["date posted"]}

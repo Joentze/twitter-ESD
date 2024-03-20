@@ -1,6 +1,8 @@
 import axios from "axios";
 import { ResponseMessage } from "../helperTypes";
 import { UserDetailType } from "../user/userHelper";
+
+
 const API_ROUTE = "http://localhost:8000/api/v1";
 
 interface PostBodyType {
@@ -10,8 +12,8 @@ interface PostBodyType {
 }
 
 export interface ReadPostBodyType {
-  likes: string[];
-  "user detail": UserDetailType;
+  likes?: string[];
+  "user detail"?: UserDetailType;
   "date posted": string;
   "post content": string;
   "post id": string;
@@ -50,5 +52,14 @@ export const readAllPosts = async (
     return response.data as ReadAllPostResponseType;
   } catch (e) {
     throw new Error("There was an error with reading your posts");
+  }
+};
+
+export const getPost = async (postId: string): Promise<ReadPostBodyType> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/post/${postId}`);
+    return response.data["data"] as ReadPostBodyType;
+  } catch (e) {
+    throw new Error("There was an error with getting the post at this moment");
   }
 };
