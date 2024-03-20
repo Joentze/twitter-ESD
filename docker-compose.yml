@@ -18,6 +18,10 @@ services:
       - .env
     networks:
       - mynet
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uroot -p$$MYSQL_ROOT_PASSWORD -P3308 -e 'SELECT 1;'"]
+      interval: 1s
+      retries: 50
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
@@ -46,7 +50,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   posts_service:
     container_name: posts_service
@@ -60,7 +65,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   comments_service:
     container_name: comments_service
@@ -74,13 +80,14 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   likes_service:
     container_name: likes_service
     build:
-      context: ./backend/apis/
-      dockerfile: ./atomic/likes/Dockerfile
+      context: ./backend/apis/atomic/likes/
+      dockerfile: ./Dockerfile
     ports:
       - 5103:5103
     env_file:
@@ -88,7 +95,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   follows_service:
     container_name: follows_service
@@ -102,7 +110,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   assets_service:
     container_name: assets_service
@@ -130,7 +139,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
 
   read_posts_service:
     container_name: read_posts_service
@@ -191,7 +201,8 @@ services:
     networks:
       - mynet
     depends_on:
-      - mysql
+      mysql: 
+        condition: service_healthy
     restart: always
 
   minio:
