@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import PostDisplay from "../../components/displays/PostDisplay";
 import { useEffect, useState } from "react";
+import { IoChatbubbleEllipses } from "react-icons/io5";
+
 import {
   CommentType,
   getPostComments,
@@ -8,6 +10,7 @@ import {
 import { ReadPostBodyType, getPost } from "../../helpers/post/postHelper";
 import PostCard from "../../components/card/PostCard";
 import { UserDetailType, getUserDetail } from "../../helpers/user/userHelper";
+import CommentCard from "../../components/comment/CommentCard";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -43,7 +46,32 @@ const PostPage = () => {
         ) : (
           <></>
         )}
+        <div className="w-full flex flex-row p-4 border border-b-2 gap-4">
+          <label className="input input-bordered flex items-center gap-2 grow">
+            <IoChatbubbleEllipses className="text-slate-600" />
+            <input
+              type="text"
+              className="grow"
+              placeholder="Example: 'Looks awesome!'"
+            />
+          </label>
+          <button className="btn btn-primary">Comment</button>
+        </div>
+        <>
+          {comments.map((comment) => {
+            return (
+              <CommentCard
+                commentId={comment["comment id"]}
+                commenterUid={comment["commenter uid"]}
+                content={comment["content"]}
+                dateCommented={comment["date commented"]}
+                postId={comment["post id"]}
+              />
+            );
+          })}
+        </>
       </div>
+
       <div className="hidden xl:block lg:w-96 h-screen "></div>
     </div>
   );
