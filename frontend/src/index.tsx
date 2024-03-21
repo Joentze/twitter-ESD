@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FeedPage from "./pages/feed/FeedPage";
 import PostPage from "./pages/post/PostPage";
 import { AuthProvider } from "./auth/AuthContextProvider";
+import UserPage from "./pages/user/UserPage";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/feed",
     element: <FeedPage />,
+  },
+  {
+    path: "/user/:userId",
+    element: <UserPage />,
   },
   {
     path: "/post/:postId",

@@ -2,7 +2,6 @@ import axios from "axios";
 import { ResponseMessage } from "../helperTypes";
 import { UserDetailType } from "../user/userHelper";
 
-
 const API_ROUTE = "http://localhost:8000/api/v1";
 
 interface PostBodyType {
@@ -61,5 +60,16 @@ export const getPost = async (postId: string): Promise<ReadPostBodyType> => {
     return response.data["data"] as ReadPostBodyType;
   } catch (e) {
     throw new Error("There was an error with getting the post at this moment");
+  }
+};
+
+export const getPostByUser = async (
+  uid: string
+): Promise<ReadPostBodyType[]> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/post/user_get/${uid}`);
+    return response.data["data"] as ReadPostBodyType[];
+  } catch (e) {
+    throw new Error("There was an error with getting posts from user");
   }
 };

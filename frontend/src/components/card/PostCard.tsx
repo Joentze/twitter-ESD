@@ -3,6 +3,7 @@ import { UserDetailType } from "../../helpers/user/userHelper";
 import { IoHeartOutline, IoChatboxOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import LikeButton from "../like/LikeButton";
+import UserHeader from "../../pages/user/UserHeader";
 interface IPostCard {
   postId: string;
   posterId: string;
@@ -28,9 +29,10 @@ const PostCard: React.FC<IPostCard> = ({
       <div className="w-full h-fit bg-gray flex flex-col p-2 gap-2">
         <div className="flex flex-col">
           <div className="flex flex-row">
-            <p className="text-left text-md font-bold text-slate-600 text-lg grow">
-              @{(userDetail as UserDetailType)["username"]}
-            </p>
+            <UserHeader
+              uid={posterId as string}
+              username={(userDetail as UserDetailType).username}
+            />
             <p className="text-right text-xs text-slate-300 m-auto">
               Posted on {new Date(datePosted).toDateString()}
             </p>
@@ -61,7 +63,7 @@ const PostCard: React.FC<IPostCard> = ({
           <div className="grow" />
           <Link to={`/post/${postId}`}>
             <button className="btn btn-square btn-ghost btn-sm">
-              <IoChatboxOutline className="w-6 h-6 text-slate-700" />
+              <IoChatboxOutline className="w-6 h-6 text-primary" />
             </button>
           </Link>
           <LikeButton postId={postId} userLikes={likes as string[]} />

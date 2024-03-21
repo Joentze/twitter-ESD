@@ -26,9 +26,9 @@ const LikeButton: React.FC<ILikeButton> = ({ postId, userLikes }) => {
       onClick={async () => await onLikeClicked()}
     >
       {liked ? (
-        <IoHeart className="w-6 h-6 text-slate-700" />
+        <IoHeart className="w-6 h-6 text-primary" />
       ) : (
-        <IoHeartOutline className="w-6 h-6 text-slate-700" />
+        <IoHeartOutline className="w-6 h-6 text-primary" />
       )}
     </button>
   );
