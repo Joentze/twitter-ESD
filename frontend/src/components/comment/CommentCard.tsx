@@ -24,7 +24,7 @@ const CommentCard: React.FC<ICommentCard> = ({
     getUser();
   }, []);
   return (
-    <div className="w-full max-h-24 h-fit p-4 flex flex-col gap-2">
+    <div className="w-full max-h-24 h-fit p-4 flex flex-col gap-2 border border-b-2">
       <div className="flex flex-row">
         <p className="font-bold text-slate-600 grow">@{userData?.username}</p>
         <p className="text-right text-xs text-slate-300 m-auto">

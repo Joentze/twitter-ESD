@@ -12,6 +12,7 @@ import PostCard from "../../components/card/PostCard";
 import { UserDetailType, getUserDetail } from "../../helpers/user/userHelper";
 import CommentCard from "../../components/comment/CommentCard";
 import { getLikesByPost } from "../../helpers/like/likeHelper";
+import CommentUploader from "../../components/uploader/CommentUploader";
 
 const PostPage = () => {
   const { postId } = useParams();
@@ -38,30 +39,23 @@ const PostPage = () => {
       <div className="hidden xl:block lg:w-96 h-screen "></div>
       <div className="grow border-l-2 border border-r-2 flex flex-col">
         {post && userDetail ? (
-          <PostCard
-            userDetail={userDetail}
-            postId={post["post id"]}
-            postContent={post["post content"]}
-            postImages={post["post images"]}
-            postLocation={post["post location"]}
-            posterId={post["poster id"]}
-            datePosted={post["date posted"]}
-            likes={likes}
-          />
+          <>
+            <PostCard
+              userDetail={userDetail}
+              postId={post["post id"]}
+              postContent={post["post content"]}
+              postImages={post["post images"]}
+              postLocation={post["post location"]}
+              posterId={post["poster id"]}
+              datePosted={post["date posted"]}
+              likes={likes}
+            />
+            <CommentUploader postId={post["post id"]} />
+          </>
         ) : (
           <></>
         )}
-        <div className="w-full flex flex-row p-4 border border-b-2 gap-4">
-          <label className="input input-bordered flex items-center gap-2 grow">
-            <IoChatbubbleEllipses className="text-slate-600" />
-            <input
-              type="text"
-              className="grow"
-              placeholder="Example: 'Looks awesome!'"
-            />
-          </label>
-          <button className="btn btn-primary">Comment</button>
-        </div>
+
         <>
           {comments.map((comment) => {
             return (
