@@ -6,7 +6,9 @@ import {
 } from "react-icons/io5";
 import { uploadFile } from "../../helpers/asset/assetHelper";
 import { uploadPost } from "../../helpers/post/postHelper";
+import { useAuth } from "../../auth/AuthContextProvider";
 const PostUploader = () => {
+  const authId = useAuth();
   const [locationOpen, setLocationOpen] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [fileList, setFileList] = useState<string[]>([]);
@@ -36,6 +38,7 @@ const PostUploader = () => {
     setShowCancel(false);
   };
   const makePost = async () => {
+    console.log(authId);
     try {
       if (postContent !== "") setUploading(true);
       console.log({
@@ -43,7 +46,7 @@ const PostUploader = () => {
         post_location: postLocation,
         post_images: fileList,
       });
-      await uploadPost("user1_uid", {
+      await uploadPost(authId as string, {
         post_content: postContent,
         post_location: postLocation,
         post_images: fileList,

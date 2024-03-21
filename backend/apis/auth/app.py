@@ -43,6 +43,7 @@ def home():
     return render_template(
         "home.html",
         redirect=FRONTEND_URL,
+        auth=session.get("user")["access_token"],
         session=session.get("user"),
         pretty=json.dumps(session.get("user"), indent=4),
     )

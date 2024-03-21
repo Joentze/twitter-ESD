@@ -9,8 +9,7 @@
     {% if session %}
     <h1>Welcome {{session.userinfo.name}}!</h1>
     <script>
-        let storedString = JSON.stringify('{{ session.userinfo }}')
-        localStorage.setItem("twitter_auth", storedString)
+        localStorage.setItem("twitter_auth", '{{ auth }}')
         window.location.href = '{{ redirect_url }}'
     </script>
     <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
