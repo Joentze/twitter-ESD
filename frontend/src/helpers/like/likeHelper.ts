@@ -39,3 +39,12 @@ export const unlikePost = async (
     throw new Error("There was an error with liking post");
   }
 };
+
+export const getLikesByPost = async (postId: string): Promise<string[]> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/like/${postId}`);
+    return response.data["data"] as string[];
+  } catch (e) {
+    throw new Error("There was an error with getting likes for the post");
+  }
+};

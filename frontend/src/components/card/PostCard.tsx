@@ -2,6 +2,7 @@ import React from "react";
 import { UserDetailType } from "../../helpers/user/userHelper";
 import { IoHeartOutline, IoChatboxOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import LikeButton from "../like/LikeButton";
 interface IPostCard {
   postId: string;
   posterId: string;
@@ -63,9 +64,7 @@ const PostCard: React.FC<IPostCard> = ({
               <IoChatboxOutline className="w-6 h-6 text-slate-700" />
             </button>
           </Link>
-          <button className="btn btn-square btn-ghost btn-sm">
-            <IoHeartOutline className="w-6 h-6 text-slate-700" />
-          </button>
+          <LikeButton postId={postId} userLikes={likes as string[]} />
         </div>
       </div>
     </div>

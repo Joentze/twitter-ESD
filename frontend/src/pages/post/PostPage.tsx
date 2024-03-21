@@ -11,18 +11,22 @@ import { ReadPostBodyType, getPost } from "../../helpers/post/postHelper";
 import PostCard from "../../components/card/PostCard";
 import { UserDetailType, getUserDetail } from "../../helpers/user/userHelper";
 import CommentCard from "../../components/comment/CommentCard";
+import { getLikesByPost } from "../../helpers/like/likeHelper";
 
 const PostPage = () => {
   const { postId } = useParams();
   const [post, setPost] = useState<ReadPostBodyType>();
   const [userDetail, setUserDetail] = useState<UserDetailType>();
   const [comments, setComments] = useState<CommentType[]>([]);
+  const [likes, setLikes] = useState<string[]>([]);
   useEffect(() => {
     const getPostContent = async () => {
       const commentsData = await getPostComments(postId as string);
       const postData = await getPost(postId as string);
       const uid = postData["poster id"];
       const userData = await getUserDetail(uid);
+      const likesResponse = await getLikesByPost(postId as string);
+      setLikes(likesResponse);
       setUserDetail(userData);
       setPost(postData);
       setComments(commentsData);
@@ -42,6 +46,7 @@ const PostPage = () => {
             postLocation={post["post location"]}
             posterId={post["poster id"]}
             datePosted={post["date posted"]}
+            likes={likes}
           />
         ) : (
           <></>
