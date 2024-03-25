@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useAuth } from "../../auth/AuthContextProvider";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
 import { likePost, unlikePost } from "../../helpers/like/likeHelper";
+import { User, useAuth0 } from "@auth0/auth0-react";
 interface ILikeButton {
   postId: string;
   userLikes: string[];
 }
 
 const LikeButton: React.FC<ILikeButton> = ({ postId, userLikes }) => {
-  const authId = useAuth();
+  const authId = (useAuth0()["user"] as User)["sub"] as string;
   const [liked, setLiked] = useState<boolean>(userLikes.includes(authId));
   const onLikeClicked = async () => {
     if (liked) {

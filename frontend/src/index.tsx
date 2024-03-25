@@ -5,6 +5,7 @@ import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import FeedPage from "./pages/feed/FeedPage";
 import PostPage from "./pages/post/PostPage";
+import ExplorePage from "./pages/explore/ExplorePage";
 import { AuthProvider } from "./auth/AuthContextProvider";
 import UserPage from "./pages/user/UserPage";
 import { Auth0Provider } from "@auth0/auth0-react";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/callback",
     element: <CallbackPage />,
+  },
+  {
+    path: "/explore",
+    element: <ExplorePage />,
   },
   {
     path: "/feed",

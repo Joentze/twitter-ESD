@@ -3,9 +3,12 @@ import { useLocation } from "react-router-dom";
 import { IoNewspaper, IoCompass, IoPersonSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContextProvider";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutButton from "../components/auth/LogoutButton";
 const SideBar = () => {
   const location = useLocation();
-  const authId = useAuth();
+  // const authId = useAuth();
+  const { user } = useAuth0();
   return (
     <>
       <div className="flex flex-col ml-24 p-6">
@@ -35,10 +38,12 @@ const SideBar = () => {
           </div>
         </Link>
 
-        <Link to={`/user/${authId}`}>
+        <Link to={`/user/${user?.sub as string}`}>
           <div
             className={`${
-              location.pathname.includes(`/user/${encodeURIComponent(authId)}`)
+              location.pathname.includes(
+                `/user/${encodeURIComponent(user?.sub as string)}`
+              )
                 ? "font-bold"
                 : ""
             } w-full hover:bg-gray-200 h-fit rounded-lg p-4 flex flex-row gap-2 text-primary text-lg`}
@@ -47,6 +52,8 @@ const SideBar = () => {
             Your Profile
           </div>
         </Link>
+        <div className="divider"></div>
+        <LogoutButton />
       </div>
     </>
   );

@@ -2,21 +2,29 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { ReadPostBodyType, readAllPosts } from "../../helpers/post/postHelper";
 import PostCard from "../card/PostCard";
-import { useAuth } from "../../auth/AuthContextProvider";
+import { User, useAuth0 } from "@auth0/auth0-react";
 const PostDisplay = () => {
-  const authId = useAuth();
+  const { user } = useAuth0();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [posts, setPosts] = useState<ReadPostBodyType[]>([]);
   useEffect(() => {
     const getPosts = async () => {
-      const responsePosts = await readAllPosts(authId as string);
-      const { data } = responsePosts;
-      console.log(data);
-      setPosts(data);
-      setLoading(false);
+      if (user) {
+        try {
+          const authId = (user as User)["sub"];
+          const responsePosts = await readAllPosts(authId as string);
+          const { data } = responsePosts;
+          console.log(data);
+          setPosts(data);
+          setLoading(false);
+        } catch (e) {
+          setPosts([]);
+        }
+      }
     };
     getPosts();
-  }, []);
+  }, [user]);
   return (
     <div className="overflow-y-scroll">
       {posts.map((post) => {

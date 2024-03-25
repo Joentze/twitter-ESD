@@ -35,3 +35,12 @@ export const createNewUser = async (
     return false;
   }
 };
+
+export const getAllUsers = async (): Promise<UserDetailType[]> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/user/all`);
+    return response.data["data"] as UserDetailType[];
+  } catch (e) {
+    throw new Error("There was an error getting all users");
+  }
+};

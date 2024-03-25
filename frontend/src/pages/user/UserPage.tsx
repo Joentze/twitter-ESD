@@ -11,8 +11,10 @@ import {
 } from "../../helpers/follow/followHelper";
 import { useAuth } from "../../auth/AuthContextProvider";
 import SideBar from "../../nav/SideBar";
+import { User, useAuth0 } from "@auth0/auth0-react";
 const UserPage = () => {
-  const authId = useAuth();
+  // const authId = useAuth();
+  const { user } = useAuth0();
   const { userId } = useParams();
   const [userDetail, setUserDetail] = useState<UserDetailType>();
   const [posts, setPosts] = useState<ReadPostBodyType[]>([]);
@@ -20,26 +22,33 @@ const UserPage = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
   useEffect(() => {
     const getContent = async () => {
-      const userResponse = await getUserDetail(userId as string);
-      const myFollowers = await getFollowing(authId as string);
-      const userFollowings = await getFollowing(userId as string);
-      setFollowers(userFollowings);
-      setUserDetail(userResponse);
-      setIsFollowing(myFollowers.includes(userId as string));
-      const postsResponse = await getPostByUser(userId as string);
-      const postsTempArr: ReadPostBodyType[] = [];
-      for (let post of postsResponse) {
-        const thisPostLikes = await getLikesByPost(post["post id"]);
-        postsTempArr.push({
-          ...post,
-          likes: thisPostLikes,
-          "user detail": userResponse,
-        });
+      if (user) {
+        try {
+          const authId = (user as User)["sub"];
+          const userResponse = await getUserDetail(userId as string);
+          const myFollowers = await getFollowing(authId as string);
+          const userFollowings = await getFollowing(userId as string);
+          setFollowers(userFollowings);
+          setUserDetail(userResponse);
+          setIsFollowing(myFollowers.includes(userId as string));
+          const postsResponse = await getPostByUser(userId as string);
+          const postsTempArr: ReadPostBodyType[] = [];
+          for (let post of postsResponse) {
+            const thisPostLikes = await getLikesByPost(post["post id"]);
+            postsTempArr.push({
+              ...post,
+              likes: thisPostLikes,
+              "user detail": userResponse,
+            });
+          }
+          setPosts(postsTempArr);
+        } catch (e) {
+          setPosts([]);
+        }
       }
-      setPosts(postsTempArr);
     };
     getContent();
-  }, [userId]);
+  }, [userId, user]);
   return (
     <div className="w-full h-screen flex flex-row">
       <div className="hidden xl:block lg:w-96 h-screen ">
@@ -52,12 +61,12 @@ const UserPage = () => {
               <p className="font-bold text-3xl text-primary grow">
                 @{(userDetail as UserDetailType).username}
               </p>
-              <div className={authId === userId ? "hidden" : "block"}>
+              <div className={user?.sub === userId ? "hidden" : "block"}>
                 {isFollowing ? (
                   <button
                     className="btn btn-primary m-auto"
                     onClick={async () => {
-                      await unfollowUser(authId, userId as string);
+                      await unfollowUser(user?.sub as string, userId as string);
                       setIsFollowing(false);
                     }}
                   >
@@ -67,7 +76,7 @@ const UserPage = () => {
                   <button
                     className="btn btn-primary btn-outline m-auto"
                     onClick={async () => {
-                      await followUser(authId, userId as string);
+                      await followUser(user?.sub as string, userId as string);
                       setIsFollowing(true);
                     }}
                   >

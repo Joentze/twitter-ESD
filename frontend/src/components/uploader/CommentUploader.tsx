@@ -2,17 +2,18 @@ import { useState } from "react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import { useAuth } from "../../auth/AuthContextProvider";
 import { uploadComment } from "../../helpers/comment/commentHelper";
+import { useAuth0 } from "@auth0/auth0-react";
 interface ICommentUploader {
   postId: string;
 }
 const CommentUploader: React.FC<ICommentUploader> = ({ postId }) => {
   const [comment, setComment] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const authId = useAuth();
+  const { user } = useAuth0();
   const postComment = async () => {
     setLoading(true);
     await uploadComment(postId, {
-      commenter_uid: authId,
+      commenter_uid: user?.sub as string,
       content: comment,
     });
     setComment("");
