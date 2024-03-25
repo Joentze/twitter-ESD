@@ -7,13 +7,24 @@ import FeedPage from "./pages/feed/FeedPage";
 import PostPage from "./pages/post/PostPage";
 import { AuthProvider } from "./auth/AuthContextProvider";
 import UserPage from "./pages/user/UserPage";
+import { Auth0Provider } from "@auth0/auth0-react";
+import LoginButton from "./components/auth/LoginButton";
+import CallbackPage from "./pages/callback/CallbackPage";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <>hello world</>,
+    element: (
+      <>
+        <LoginButton />
+      </>
+    ),
+  },
+  {
+    path: "/callback",
+    element: <CallbackPage />,
   },
   {
     path: "/feed",
@@ -30,9 +41,15 @@ const router = createBrowserRouter([
 ]);
 root.render(
   <React.StrictMode>
-    <AuthProvider>
+    <Auth0Provider
+      domain={"dev-eym6ylpoplxr2f0n.jp.auth0.com"}
+      clientId={"LWkIEqZqSRPbq2yUrtLtSnS6gjjNidPw"}
+      authorizationParams={{
+        redirect_uri: "http://localhost:3000/callback",
+      }}
+    >
       <RouterProvider router={router} />
-    </AuthProvider>
+    </Auth0Provider>
   </React.StrictMode>
 );
 

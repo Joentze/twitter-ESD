@@ -4,7 +4,10 @@ import logo from "./logo.svg";
 import PostDisplay from "../../components/displays/PostDisplay";
 import PostUploader from "../../components/uploader/PostUploader";
 import SideBar from "../../nav/SideBar";
+import { useAuth0 } from "@auth0/auth0-react";
 const FeedPage = () => {
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  console.log(user);
   return (
     <div className="App">
       <div className="w-full h-screen flex flex-row">

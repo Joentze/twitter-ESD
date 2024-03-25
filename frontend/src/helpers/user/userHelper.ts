@@ -10,11 +10,28 @@ export interface UserDetailType {
   username: string;
 }
 
+export interface UserCreateReqBody {
+  username: string;
+  email: string;
+}
+
 export const getUserDetail = async (uid: string): Promise<UserDetailType> => {
   try {
     const response = await axios.get(`${API_ROUTE}/user/${uid}`);
     return response.data["data"] as UserDetailType;
   } catch (e) {
     throw new Error("There was an error with getting user data");
+  }
+};
+
+export const createNewUser = async (
+  uid: string,
+  reqBody: UserCreateReqBody
+): Promise<boolean> => {
+  try {
+    await axios.post(`${API_ROUTE}/user/${uid}`, reqBody);
+    return true;
+  } catch (e) {
+    return false;
   }
 };
