@@ -7,8 +7,8 @@ interface IUserHeader {
 
 const UserHeader: React.FC<IUserHeader> = ({ uid, username }) => {
   return (
-    <Link to={`/user/${uid}`}>
-      <p className="text-left text-md font-bold text-slate-600 text-lg grow hover:underline">
+    <Link to={`/user/${uid}`} className="grow">
+      <p className="text-left text-md font-bold text-primary text-lg hover:underline">
         @{username}
       </p>
     </Link>

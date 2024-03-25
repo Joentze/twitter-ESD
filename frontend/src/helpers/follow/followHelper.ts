@@ -24,3 +24,28 @@ export const followUser = async (
     throw new Error("There was an error with following user");
   }
 };
+
+export const unfollowUser = async (
+  uid: string,
+  followedId: string
+): Promise<FollowResponseType> => {
+  try {
+    const response = await axios.delete(`${API_ROUTE}/follow/${uid}`, {
+      data: {
+        followed_id: followedId,
+      },
+    });
+    return response.data as FollowResponseType;
+  } catch (e) {
+    throw new Error("There was an error with following user");
+  }
+};
+
+export const getFollowing = async (uid: string): Promise<string[]> => {
+  try {
+    const response = await axios.get(`${API_ROUTE}/follow/${uid}`);
+    return response.data["data"] as string[];
+  } catch (e) {
+    throw new Error("There was an error with getting the following");
+  }
+};

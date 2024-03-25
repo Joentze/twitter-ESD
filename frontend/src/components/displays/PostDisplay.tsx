@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import React from "react";
 import { ReadPostBodyType, readAllPosts } from "../../helpers/post/postHelper";
 import PostCard from "../card/PostCard";
+import { useAuth } from "../../auth/AuthContextProvider";
 const PostDisplay = () => {
+  const authId = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const [posts, setPosts] = useState<ReadPostBodyType[]>([]);
   useEffect(() => {
     const getPosts = async () => {
-      const responsePosts = await readAllPosts("user1_uid");
+      const responsePosts = await readAllPosts(authId as string);
       const { data } = responsePosts;
       console.log(data);
       setPosts(data);

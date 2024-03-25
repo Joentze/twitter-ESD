@@ -58,6 +58,7 @@ def read_posts():
         print('printing follows response')
         print(follows_response)
         print(type(follows_response))
+        follows_response["data"] += [user_uid]
         # follows_data = follows_response.get("data", [])
         # print('follows_response:', follows_data)
 
@@ -83,6 +84,7 @@ def read_posts():
         # Retrieve posts for followers of each user
 
         follower_posts = []
+
         for user_id, follower_ids in followers_dict.items():
             print(follower_ids)
             for follower_id in follower_ids:

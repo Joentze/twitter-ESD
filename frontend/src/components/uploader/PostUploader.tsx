@@ -66,7 +66,7 @@ const PostUploader = () => {
   return (
     <div className="w-full h-fit p-4 flex flex-col border border-b-2 ">
       <textarea
-        className="textarea textarea-bordered"
+        className="textarea textarea-bordered textarea-primary border-2"
         placeholder="Make a Post!"
         value={postContent}
         defaultValue={postContent}
@@ -75,7 +75,7 @@ const PostUploader = () => {
       <input
         className={`${
           locationOpen ? "block" : "hidden"
-        } w-full input input-sm input-bordered mt-4`}
+        } w-full input input-sm input-bordered mt-4 input-primary`}
         value={postLocation}
         defaultValue={postLocation}
         onChange={(event) => setPostLocation(event.target.value)}

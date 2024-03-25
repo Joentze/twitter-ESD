@@ -48,8 +48,8 @@ const PostCard: React.FC<IPostCard> = ({
               return (
                 <div className="carousel-item w-full">
                   <img
-                    src="https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg"
-                    className="bg-cover bg-center w-full h-full"
+                    src={image}
+                    className="bg-cover bg-center w-full h-full max-w-[800px]"
                     alt="Tailwind CSS Carousel component"
                   />
                 </div>
