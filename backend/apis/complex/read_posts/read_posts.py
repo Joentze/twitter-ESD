@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from typing import List
 from flask_cors import CORS
 from datetime import datetime
 import os
@@ -10,7 +11,7 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 
-import requests
+from requests import get
 from invokes import invoke_http
 
 
@@ -28,6 +29,9 @@ app.logger.setLevel(logging.INFO)
 API_URL = f"{os.environ['API_URL']}"
 FOLLOW_URL = f"{API_URL}/follow"
 POST_URL = f"{API_URL}/post/user_get"
+LIKE_URL = f"{API_URL}/like"
+USER_URL = f"{API_URL}/user"
+
 
 @app.route("/read_posts", methods=['GET'])
 def read_posts():
@@ -103,6 +107,14 @@ def read_posts():
             "date posted", ""), reverse=True)
 
         print(follower_posts)
+        for idx, follower_post in enumerate(follower_posts):
+            post_id = follower_post["post id"]
+            poster_id = follower_post["poster id"]
+            user_detail = get_user_detail(poster_id)
+            likes = get_likes(post_id)
+            follower_posts[idx]["likes"] = likes
+            follower_posts[idx]["user detail"] = user_detail
+
         # Return posts for followers of each user
         return jsonify({
             "code": 200,
@@ -114,6 +126,22 @@ def read_posts():
             "code": 500,
             "message": "Internal server error: " + str(e)
         }), 500
+
+
+def get_likes(post_id: str) -> List[str]:
+    """gets likes for post"""
+    post_likes_route = F"{LIKE_URL}/{post_id}"
+    response = get(post_likes_route, timeout=5000)
+    print(response)
+    return response.json()["data"]
+
+
+def get_user_detail(user_id: str) -> List[str]:
+    """gets likes for post"""
+    user_detail_route = F"{USER_URL}/{user_id}"
+    response = get(user_detail_route, timeout=5000)
+    print(response)
+    return response.json()["data"]
 
 
 # Execute this program if it is run as a main script (not by 'import')
