@@ -3,7 +3,7 @@ import { ResponseMessage } from "../helperTypes";
 
 const API_ROUTE = "http://localhost:8000/api/v1";
 
-interface CommentBody {
+export interface CommentBody {
   content: string;
   commenter_uid: string;
 }
@@ -19,13 +19,13 @@ export interface CommentType {
 export const uploadComment = async (
   postId: string,
   commentBody: CommentBody
-): Promise<ResponseMessage> => {
+): Promise<CommentType> => {
   try {
     const response = await axios.post(
       `${API_ROUTE}/comment/upload/${postId}`,
       commentBody
     );
-    return response.data as ResponseMessage;
+    return response.data["data"] as CommentType;
   } catch (e) {
     throw new Error("There was an error with uploading comment");
   }

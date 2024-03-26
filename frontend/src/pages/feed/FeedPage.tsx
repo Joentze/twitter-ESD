@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 
 import PostDisplay from "../../components/displays/PostDisplay";
-import PostUploader from "../../components/uploader/PostUploader";
+
 import SideBar from "../../nav/SideBar";
 const FeedPage = () => {
   return (
@@ -12,7 +12,7 @@ const FeedPage = () => {
           <SideBar />
         </div>
         <div className="grow border-l-2 border border-r-2 flex flex-col">
-          <PostUploader />
+          
 
           <PostDisplay />
         </div>

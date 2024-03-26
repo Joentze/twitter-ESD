@@ -1,23 +1,36 @@
 import { useState } from "react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import { useAuth } from "../../auth/AuthContextProvider";
-import { uploadComment } from "../../helpers/comment/commentHelper";
+import {
+  CommentBody,
+  CommentType,
+  uploadComment,
+} from "../../helpers/comment/commentHelper";
 import { useAuth0 } from "@auth0/auth0-react";
 interface ICommentUploader {
   postId: string;
+  comments: CommentType[];
+  setComments: React.Dispatch<React.SetStateAction<CommentType[]>>;
 }
-const CommentUploader: React.FC<ICommentUploader> = ({ postId }) => {
+const CommentUploader: React.FC<ICommentUploader> = ({
+  postId,
+  comments,
+  setComments,
+}) => {
   const [comment, setComment] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useAuth0();
   const postComment = async () => {
     setLoading(true);
-    await uploadComment(postId, {
+    const commentData = {
       commenter_uid: user?.sub as string,
       content: comment,
-    });
+    };
+    console.log(comments);
+    await uploadComment(postId, commentData);
     setComment("");
     setLoading(false);
+    window.location.reload();
   };
   return (
     <div className="w-full flex flex-row p-4 border border-b-2 gap-4">

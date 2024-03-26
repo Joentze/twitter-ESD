@@ -41,6 +41,11 @@ const UserPage = () => {
               "user detail": userResponse,
             });
           }
+          postsTempArr.sort(
+            (a, b) =>
+              new Date(b["date posted"]).getTime() -
+              new Date(a["date posted"]).getTime()
+          );
           setPosts(postsTempArr);
         } catch (e) {
           setPosts([]);

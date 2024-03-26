@@ -58,6 +58,7 @@ const PostUploader = () => {
       (
         document.getElementById("post-file-uploader") as HTMLInputElement
       ).value = "";
+      window.location.reload();
       setFileList([]);
       setUploading(false);
     } catch (e) {

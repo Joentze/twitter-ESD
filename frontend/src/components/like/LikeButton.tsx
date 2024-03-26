@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useAuth } from "../../auth/AuthContextProvider";
 import { IoHeartOutline, IoHeart } from "react-icons/io5";
@@ -10,16 +10,22 @@ interface ILikeButton {
 }
 
 const LikeButton: React.FC<ILikeButton> = ({ postId, userLikes }) => {
-  const authId = (useAuth0()["user"] as User)["sub"] as string;
-  const [liked, setLiked] = useState<boolean>(userLikes.includes(authId));
-  const onLikeClicked = async () => {
-    if (liked) {
-      unlikePost(postId, authId);
-      setLiked(false);
-    } else {
-      likePost(postId, authId);
-      setLiked(true);
+  const { user } = useAuth0();
+  const [liked, setLiked] = useState<boolean>(false);
+  useEffect(() => {
+    if (user) {
+      setLiked(userLikes.includes(user.sub as string));
     }
+  }, [user]);
+  const onLikeClicked = async () => {
+    if (user)
+      if (liked) {
+        unlikePost(postId, user.sub as string);
+        setLiked(false);
+      } else {
+        likePost(postId, user.sub as string);
+        setLiked(true);
+      }
   };
   return (
     <button

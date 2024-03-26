@@ -1,7 +1,7 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PostDisplay from "../../components/displays/PostDisplay";
 import { useEffect, useState } from "react";
-import { IoChatbubbleEllipses } from "react-icons/io5";
+import { IoArrowBack } from "react-icons/io5";
 
 import {
   CommentType,
@@ -15,6 +15,7 @@ import { getLikesByPost } from "../../helpers/like/likeHelper";
 import CommentUploader from "../../components/uploader/CommentUploader";
 
 const PostPage = () => {
+  const navigate = useNavigate();
   const { postId } = useParams();
   const [post, setPost] = useState<ReadPostBodyType>();
   const [userDetail, setUserDetail] = useState<UserDetailType>();
@@ -36,7 +37,17 @@ const PostPage = () => {
   }, [postId]);
   return (
     <div className="w-full h-screen flex flex-row">
-      <div className="hidden xl:block lg:w-96 h-screen "></div>
+      <div className="hidden xl:block lg:w-96 h-screen flex flex-col">
+        <div className="flex flex-row p-4">
+          <div className="grow"></div>
+          <button
+            className="btn btn-square btn-ghost"
+            onClick={() => navigate(-1)}
+          >
+            <IoArrowBack className="w-6 h-6 text-gray-400" />
+          </button>
+        </div>
+      </div>
       <div className="grow border-l-2 border border-r-2 flex flex-col">
         {post && userDetail ? (
           <>
@@ -50,13 +61,17 @@ const PostPage = () => {
               datePosted={post["date posted"]}
               likes={likes}
             />
-            <CommentUploader postId={post["post id"]} />
+            <CommentUploader
+              postId={post["post id"]}
+              comments={comments}
+              setComments={setComments}
+            />
           </>
         ) : (
           <></>
         )}
 
-        <>
+        <div className="overflow-y-scroll">
           {comments.map((comment) => {
             return (
               <CommentCard
@@ -68,7 +83,7 @@ const PostPage = () => {
               />
             );
           })}
-        </>
+        </div>
       </div>
 
       <div className="hidden xl:block lg:w-96 h-screen "></div>

@@ -3,6 +3,7 @@ import React from "react";
 import { ReadPostBodyType, readAllPosts } from "../../helpers/post/postHelper";
 import PostCard from "../card/PostCard";
 import { User, useAuth0 } from "@auth0/auth0-react";
+import PostUploader from "../../components/uploader/PostUploader";
 const PostDisplay = () => {
   const { user } = useAuth0();
 
@@ -15,7 +16,11 @@ const PostDisplay = () => {
           const authId = (user as User)["sub"];
           const responsePosts = await readAllPosts(authId as string);
           const { data } = responsePosts;
-          console.log(data);
+          data.sort(
+            (a, b) =>
+              new Date(b["date posted"]).getTime() -
+              new Date(a["date posted"]).getTime()
+          );
           setPosts(data);
           setLoading(false);
         } catch (e) {
@@ -26,22 +31,25 @@ const PostDisplay = () => {
     getPosts();
   }, [user]);
   return (
-    <div className="overflow-y-scroll">
-      {posts.map((post) => {
-        return (
-          <PostCard
-            userDetail={post["user detail"]}
-            postId={post["post id"]}
-            postContent={post["post content"]}
-            postImages={post["post images"]}
-            postLocation={post["post location"]}
-            posterId={post["poster id"]}
-            datePosted={post["date posted"]}
-            likes={post["likes"]}
-          />
-        );
-      })}
-    </div>
+    <>
+      <PostUploader />
+      <div className="overflow-y-scroll">
+        {posts.map((post) => {
+          return (
+            <PostCard
+              userDetail={post["user detail"]}
+              postId={post["post id"]}
+              postContent={post["post content"]}
+              postImages={post["post images"]}
+              postLocation={post["post location"]}
+              posterId={post["poster id"]}
+              datePosted={post["date posted"]}
+              likes={post["likes"]}
+            />
+          );
+        })}
+      </div>
+    </>
   );
 };
 

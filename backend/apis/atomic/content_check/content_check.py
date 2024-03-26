@@ -38,6 +38,7 @@ def content_check():
     req_body = request.json
     app.logger.info(req_body)
     response = post(API_URL, headers=headers, json=req_body, timeout=5000)
+    print("response from hugging face", response)
     data = response.json()[0]
     scores: ScoreType = {}
     for evaluations in data:
@@ -45,7 +46,7 @@ def content_check():
         scores[label] = score
     app.logger.info(scores)
     try:
-        if scores["SFW"] < scores["NSFW"]:
+        if scores["SFW"] < scores["NSFW"] and scores["NSFW"] > 0.9:
             return jsonify(
                 {"code": 200, "sfw": False}
             ), 200
