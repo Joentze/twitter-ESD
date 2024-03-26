@@ -209,7 +209,7 @@ services:
     container_name: auth0-login
     build: ./backend/apis/auth
     ports:
-      - 3000:3000
+      - 3001:3000
     env_file:
       - .env
 
