@@ -106,7 +106,7 @@ func getAllLikes(c *gin.Context) {
     if len(likes) == 0 {
         c.JSON(http.StatusOK, gin.H{
             "code": 200,
-            "message": "No one is liking each other!",
+            "data": []interface{}{},
         })
     } else {
         c.JSON(http.StatusOK, gin.H{
@@ -141,7 +141,7 @@ func getUserLikes(c *gin.Context) {
     if len(likes) == 0 {
         c.JSON(http.StatusOK, gin.H{
             "code": 200,
-            "message": "User has not liked any posts!",
+            "data": []interface{}{},
         })
     } else {
         c.JSON(http.StatusOK, gin.H{
@@ -174,7 +174,7 @@ func getPostLikes(c *gin.Context) {
     if len(likes) == 0 {
         c.JSON(http.StatusOK, gin.H{
             "code": 200,
-            "message": "Post has no likes",
+            "data": []interface{}{},
         })
     } else {
         c.JSON(http.StatusOK, gin.H{
@@ -292,7 +292,7 @@ func deleteLike(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	c.JSON(http.StatusNoContent, gin.H{
         "code": 204,
         "message": "Like deleted successfully",
     })
