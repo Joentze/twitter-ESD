@@ -113,7 +113,9 @@ def read_posts():
             post_id = follower_post["post id"]
             poster_id = follower_post["poster id"]
             user_detail = get_user_detail(poster_id)
+            print("user detail:", user_detail)
             likes = get_likes(post_id)
+            print("likes", likes)
             follower_posts[idx]["likes"] = likes
             follower_posts[idx]["user detail"] = user_detail
 
@@ -131,14 +133,17 @@ def read_posts():
 
 
 def get_likes(post_id: str) -> List[str]:
-    """gets likes for post"""
-    post_likes_route = F"{LIKE_URL}/{post_id}"
-    response = get(post_likes_route, timeout=5000)
-    print(response)
-    return response.json()["data"]
+    try:
+        """gets likes for post"""
+        post_likes_route = F"{LIKE_URL}/{post_id}"
+        response = get(post_likes_route, timeout=5000)
+        return response.json()["data"]
+    except KeyError:
+        print("There are no likes...")
+        return []
 
 
-def get_user_detail(user_id: str) -> List[str]:
+def get_user_detail(user_id: str) -> object:
     """gets likes for post"""
     user_detail_route = F"{USER_URL}/{user_id}"
     response = get(user_detail_route, timeout=5000)
