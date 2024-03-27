@@ -39,7 +39,15 @@ def content_check():
     app.logger.info(req_body)
     response = post(API_URL, headers=headers, json=req_body, timeout=5000)
     print("response from hugging face", response)
-    data = response.json()[0]
+    try:
+        data = response.json()[0]
+    except KeyError:
+        for _ in range(5):
+            try:
+                data = response.json()[0]
+                break
+            except KeyError:
+                continue
     scores: ScoreType = {}
     for evaluations in data:
         label, score = evaluations["label"], evaluations["score"]
