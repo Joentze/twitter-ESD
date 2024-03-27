@@ -1,9 +1,11 @@
-FROM python:3-slim
+FROM golang:latest 
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY requirements.txt ./
-RUN python -m pip install --no-cache-dir -r requirements.txt
+COPY go.mod go.sum main.go .
 
-COPY ./atomic/likes/likes.py ./
-CMD [ "python", "./likes.py" ]
+RUN go build -o bin .
+
+ENTRYPOINT ["/app/bin"]
+
+
