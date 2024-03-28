@@ -1,12 +1,10 @@
-FROM python:3-slim
-ENV PYTHONUNBUFFERED=1
+FROM node:14
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/read_posts
+COPY ./complex/read_posts/package*.json ./
+RUN npm install
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+COPY ./complex/read_posts/*.js .
 
-COPY ./complex/read_posts/*.py ./
+CMD [ "node", "read_posts.js" ]
 
-COPY ./complex/read_posts/read_posts.py ./complex/read_posts/invokes.py ./
-CMD [ "python", "./read_posts.py" ]
