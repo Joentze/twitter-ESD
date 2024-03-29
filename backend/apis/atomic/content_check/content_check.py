@@ -1,7 +1,9 @@
 """microservice for content check"""
+# from torch import load
 import os
 import logging
 from logging.handlers import RotatingFileHandler
+from huggingface_hub.inference_api import InferenceApi
 from typing import TypedDict
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -37,17 +39,12 @@ def content_check():
     """api for text content checking"""
     req_body = request.json
     app.logger.info(req_body)
-    response = post(API_URL, headers=headers, json=req_body, timeout=5000)
+    response = post(API_URL, headers=headers, json={
+                    **req_body, "wait_for_model": True}, timeout=30000)
     print("response from hugging face", response)
-    try:
-        data = response.json()[0]
-    except KeyError:
-        for _ in range(5):
-            try:
-                data = response.json()[0]
-                break
-            except KeyError:
-                continue
+    # classify = InferenceApi("michellejieli/NSFW_text_classifier", wait)
+    # response = classify(**req_body)
+    data = response.json()[0]
     scores: ScoreType = {}
     for evaluations in data:
         label, score = evaluations["label"], evaluations["score"]

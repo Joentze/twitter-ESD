@@ -19,8 +19,6 @@ try:
 except KeyError:
     RABBITMQ_HOST = "localhost"
     RABBITMQ_PORT = 5672
-connection = pika.BlockingConnection(
-    pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
 
 
 class UploadBody(TypedDict):
@@ -67,13 +65,15 @@ def check_content(text: str) -> bool:
 
 def send_content_warning(email: str, username: str) -> None:
     """publishes content warning message to rabbitmq"""
-
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host=RABBITMQ_HOST, port=RABBITMQ_PORT, heartbeat=3600, blocked_connection_timeout=3600))
     channel = connection.channel()
     channel.queue_declare(queue="notification-queue", durable=True)
     message_body: str = json.dumps(
         {"message_type": "CONTENT_WARNING", "email": email, "username": username})
     channel.basic_publish(exchange="twitter-message-exchange",
                           routing_key="email.notification", body=message_body)
+    connection.close()
 
 
 def get_user_email_name(uid: str) -> tuple:
