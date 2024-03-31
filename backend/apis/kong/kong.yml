@@ -1,0 +1,324 @@
+_format_version: "3.0"
+
+# # Load balancing
+# upstreams:
+#   - name: users_upstream
+#     algorithm: round-robin
+#     targets:
+#       - target: users_service-1:5100
+
+# Routes to initialise gateway proxy
+services:
+  - name: all_users_service
+    url: http://users_service:5100/users
+    routes:
+      - name: users_get_all
+        methods:
+        - OPTIONS
+        - GET
+        paths:
+        - /api/v1/user/all
+
+  - name: users_service
+    url: http://users_service:5100/user/
+    routes:
+      - name: users
+        paths:
+          - /api/v1/user
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: user_posts_service
+    url: http://posts_service:5101/userPosts/
+    routes:
+      - name: user_posts
+        paths:
+          - /api/v1/post/user_get
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: all_posts_service
+    url: http://posts_service:5101/posts/
+    routes:
+      - name: posts_get_all
+        paths:
+          - /api/v1/post/all
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: posts_service
+    url: http://posts_service:5101/post/
+    routes:
+      - name: posts
+        paths:
+          - /api/v1/post
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: all_comments_service
+    url: http://comments_service:5102/comments/
+    routes:
+      - name: comments_get_all
+        paths:
+          - /api/v1/comment/all
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: user_comments_service
+    url: http://comments_service:5102/userComments/
+    routes:
+      - name: user_comments
+        paths:
+          - /api/v1/comment/user_get
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: comments_service
+    url: http://comments_service:5102/comment/
+    routes:
+      - name: comments
+        paths:
+          - /api/v1/comment
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: all_likes_service
+    url: http://likes_service:5103/likes/
+    routes:
+      - name: likes_get_all
+        paths:
+          - /api/v1/like/all
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: user_likes_service
+    url: http://likes_service:5103/userLikes/
+    routes:
+      - name: user_likes
+        paths:
+          - /api/v1/like/user_get
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: likes_service
+    url: http://likes_service:5103/like/
+    routes:
+      - name: likes
+        paths:
+          - /api/v1/like
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: all_follows_service
+    url: http://follows_service:5104/follows/
+    routes:
+      - name: follows_get_all
+        paths:
+          - /api/v1/follow/all
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: follows_service
+    url: http://follows_service:5104/follow/
+    routes:
+      - name: follows
+        paths:
+          - /api/v1/follow
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: assets_service
+    url: http://assets_service:5105/upload/
+    routes:
+      - name: assets
+        paths:
+          - /api/v1/asset/upload
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  - name: content_check
+    url: http://content_check_service:5108/post/validate/
+    routes:
+      - name: content_check
+        paths:
+          - /api/v1/post/validate
+        methods:
+        - OPTIONS
+        - GET
+        - POST
+        strip_path: true
+
+  - name: read_posts_service
+    url: http://read_posts_service:5120/read_posts/
+    routes:
+      - name: read_posts
+        paths:
+          - /api/v1/read_posts
+        methods:
+        - OPTIONS
+        - GET
+        strip_path: true
+
+  - name: upload_post_service
+    url: http://upload_post_service:5122/upload/
+    routes:
+      - name: upload_posts
+        paths:
+          - /api/v1/post/upload
+        methods:
+        - OPTIONS
+        - POST
+        strip_path: true
+
+  - name: upload_comment_service
+    url: http://upload_comment_service:5123/upload/
+    routes:
+      - name: upload_comments
+        paths:
+          - /api/v1/comment/upload
+        methods:
+        - OPTIONS
+        - POST
+        strip_path: true
+
+  - name: auths_service
+    url: http://auth0:5101/auth/
+    routes:
+      - name: auths
+        paths:
+          - /api/v1/auth
+        methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        strip_path: true
+
+  # - name: minio
+  #   url: http://minio:5101/minio/
+  #   routes:
+  #     - name: minio
+  #       paths:
+  #         - /api/v1/minio
+  #       methods:
+  #       - GET
+  #       - POST
+  #       - PUT
+  #       - DELETE
+  #       strip_path: true
+
+# CORS plugin
+plugins:
+  - name: cors
+    config:
+      origins:
+        - '*'
+
+# # Initialising cache plugin for selected services
+# plugins:
+# - name: proxy-cache
+#   instance_name: users_cache
+#   service: users_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: user_posts_cache
+#   service: user_posts_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: posts_cache
+#   service: posts_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: comments_cache
+#   service: comments_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: likes_cache
+#   service: likes_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: follows_cache
+#   service: follows_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: assets_cache
+#   service: assets_service
+#   config:
+#     strategy: memory
+# - name: proxy-cache
+#   instance_name: read_posts_cache
+#   service: read_posts_service
+#   config:
+#     strategy: memory
+

@@ -1,9 +1,0 @@
-# Docker compose file to run the following:
-# - rabbitmq
-# - minio
-# - react frontend
-# - database (mysql/postgres)
-# - redis cache?
-# - atomic microservices
-# - complex microservices
-

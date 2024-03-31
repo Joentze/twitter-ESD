@@ -1,0 +1,260 @@
+# Docker compose file to run the following:
+# - rabbitmq
+# - minio
+# - react frontend
+# - database (mysql/postgres) (https://onexlab-io.medium.com/docker-compose-mysql-database-seed-3bcbdfc51e8b)
+# - redis cache?
+# - atomic microservices
+# - complex microservices
+
+version: "3"
+services:
+  mysql:
+    container_name: esd_database
+    build: ./backend/database
+    ports:
+      - 3308:3306
+    env_file:
+      - .env
+    networks:
+      - mynet
+    healthcheck:
+      test: ["CMD-SHELL", "mysql -uroot -p$$MYSQL_ROOT_PASSWORD -P3308 -e 'SELECT 1;'"]
+      interval: 1s
+      retries: 50
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./backend/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./backend/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    # restarts service until rabbitmq starts up, no available depends_on condition that works
+    restart: always
+  users_service:
+    # remove container name for load balancing
+    container_name: users_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/users/Dockerfile
+    # remove port mapping for load balancing
+    ports:
+      - 5100:5100
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  posts_service:
+    container_name: posts_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/posts/Dockerfile
+    ports:
+      - 5101:5101
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  comments_service:
+    container_name: comments_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/comments/Dockerfile
+    ports:
+      - 5102:5102
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  likes_service:
+    container_name: likes_service
+    build:
+      context: ./backend/apis/atomic/likes/
+      dockerfile: ./Dockerfile
+    ports:
+      - 5103:5103
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  follows_service:
+    container_name: follows_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/follows/Dockerfile
+    ports:
+      - 5104:5104
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  assets_service:
+    container_name: assets_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/asset/Dockerfile
+    ports:
+      - 5105:5105
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - minio
+
+  content_check_service:
+    container_name: content_check_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/content_check/Dockerfile
+    ports:
+      - 5108:5108
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+
+  read_posts_service:
+    container_name: read_posts_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./complex/read_posts/Dockerfile
+    ports:
+      - 5120:5120
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - follows_service
+      - posts_service
+
+  upload_post_service:
+    container_name: upload_post_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./complex/upload_post/Dockerfile
+    ports:
+      - 5122:5122
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - posts_service
+      - users_service
+      - content_check_service
+    restart: always
+
+  upload_comment_service:
+    container_name: upload_comment_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./complex/upload_comment/Dockerfile
+    ports:
+      - 5123:5123
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      - comments_service
+      - users_service
+      - content_check_service
+    restart: always
+
+  email_service:
+    container_name: email_service
+    build:
+      context: ./backend/apis/
+      dockerfile: ./atomic/email/Dockerfile
+    env_file:
+      - .env
+    networks:
+      - mynet
+    depends_on:
+      mysql: 
+        condition: service_healthy
+    restart: always
+
+  minio:
+    image: quay.io/minio/minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    env_file:
+      - .env
+    volumes:
+      - ./backend/bucket/minio/data:/data
+    command: server /data --console-address ":9001"
+
+  auth0:
+    container_name: auth0-login
+    build: ./backend/apis/auth
+    ports:
+      - 3001:3000
+    env_file:
+      - .env
+
+  kong:
+    container_name: kong_dbless
+    build: ./backend/apis/kong/
+    networks:
+      - mynet
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+    ports:
+      - "8000:8000" # Takes incoming HTTP traffic from Consumers, and forwards it to upstream Services.
+      - "8443:8443" # Takes incoming HTTPS traffic from Consumers, and forwards it to upstream Services.
+      - "8001:8001" # Admin API. Listens for calls from the command line over HTTP.
+      - "8444:8444" # Admin API. Listens for calls from the command line over HTTPS.
+      - "8002:8002" # Kong Manager (GUI). Listens for HTTP traffic.
+      - "8445:8445" # Kong Manager (GUI). Listens for HTTPS traffic.
+      - "8003:8003" # Dev Portal. Listens for HTTP traffic, assuming Dev Portal is enabled.
+      - "8446:8446" # Dev Portal. Listens for HTTP traffic, assuming Dev Portal is enabled.
+      - "8004:8004" # Dev Portal /files traffic over HTTPS, assuming the Dev Portal is enabled.
+      - "8447:8447" # Dev Portal /files traffic over HTTPS, assuming the Dev Portal is enabled.
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://kong:8000"]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+
+networks:
+  mynet:
+    driver: bridge

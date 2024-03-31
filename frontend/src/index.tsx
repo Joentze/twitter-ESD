@@ -1,15 +1,57 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import FeedPage from "./pages/feed/FeedPage";
+import PostPage from "./pages/post/PostPage";
+import ExplorePage from "./pages/explore/ExplorePage";
+import { AuthProvider } from "./auth/AuthContextProvider";
+import UserPage from "./pages/user/UserPage";
+import { Auth0Provider } from "@auth0/auth0-react";
+import LoginButton from "./components/auth/LoginButton";
+import CallbackPage from "./pages/callback/CallbackPage";
+import HomePage from "./pages/home/HomePage";
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />,
+  },
+  {
+    path: "/callback",
+    element: <CallbackPage />,
+  },
+  {
+    path: "/explore",
+    element: <ExplorePage />,
+  },
+  {
+    path: "/feed",
+    element: <FeedPage />,
+  },
+  {
+    path: "/user/:userId",
+    element: <UserPage />,
+  },
+  {
+    path: "/post/:postId",
+    element: <PostPage />,
+  },
+]);
 root.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider
+      domain={"dev-eym6ylpoplxr2f0n.jp.auth0.com"}
+      clientId={"LWkIEqZqSRPbq2yUrtLtSnS6gjjNidPw"}
+      authorizationParams={{
+        redirect_uri: "http://localhost:3000/callback",
+      }}
+    >
+      <RouterProvider router={router} />
+    </Auth0Provider>
   </React.StrictMode>
 );
 
