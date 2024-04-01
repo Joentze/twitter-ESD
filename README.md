@@ -37,16 +37,17 @@ docker compose down
 │   │   ├── atomic
 │   │   │   ├── asset
 │   │   │   ├── comments
+│   │   │   ├── content_check
+│   │   │   ├── email
 │   │   │   ├── follows
-│   │   │   ├── images
 │   │   │   ├── likes
-│   │   │   ├── post_images
 │   │   │   ├── posts
 │   │   │   └── users
 │   │   ├── auth
 │   │   ├── complex
 │   │   │   ├── read_posts
-│   │   │   └── upload_image
+│   │   │   ├── upload_comment
+│   │   │   └── upload_post
 │   │   └── kong
 │   ├── bucket
 │   ├── database
